@@ -1,0 +1,116 @@
+/* client/src/pages/Form.css */
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.form-wrapper {
+    background: var(--card-background); /* Use theme variable */
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-color); /* Use theme variable */
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.5s ease-in-out;
+    border: 1px solid var(--border-color); /* Use theme variable */
+}
+
+.form-wrapper h2 {
+    text-align: center;
+    color: var(--heading-color); /* Use theme variable */
+    margin-bottom: 0.5rem;
+}
+
+.form-wrapper p {
+    text-align: center;
+    color: var(--text-color); /* Use theme variable */
+    opacity: 0.8;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color); /* Use theme variable */
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color); /* Use theme variable */
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: var(--background-color); /* Use theme variable */
+    color: var(--text-color); /* Use theme variable */
+    transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* For success and error messages */
+.error-message, .success-message {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: .25rem;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,201 @@
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--card-background);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* --- Top Bar: Brand and User Menu --- */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: padding 0.3s ease-in-out;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.navbar-brand h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: var(--heading-color);
+    transition: font-size 0.3s ease-in-out;
+}
+
+.navbar-brand img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    transition: height 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+/* --- Main Navigation Bar --- */
+.main-nav {
+    background: var(--header-background);
+}
+
+.main-nav ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    padding: 0 2rem;
+    margin: 0;
+}
+
+.main-nav-link {
+    display: block;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--header-text);
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-nav-link:hover {
+    color: #fff;
+    border-bottom-color: var(--primary-color);
+}
+
+.main-nav-link.active {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+/* --- Guest Links in Top Bar --- */
+.top-bar-guest-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-link-guest {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--heading-color);
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link-guest:hover {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+    border-color: var(--primary-color);
+}
+
+/* --- STYLES FOR SCROLLED STATE --- */
+.site-header.scrolled .top-bar {
+    padding: 0.5rem 2rem;
+}
+
+.site-header.scrolled .navbar-brand h1 {
+    font-size: 1.5rem;
+}
+
+.site-header.scrolled .navbar-brand img {
+    height: 30px;
+    width: 30px;
+}
+
+.site-header.scrolled .main-nav-link {
+    padding: 0.5rem 0.5rem;
+}
+
+/* --- User Dropdown Menu --- */
+.navbar-user-info {
+    position: relative;
+}
+
+.user-menu-trigger {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.user-menu-trigger:hover {
+    background-color: var(--border-color);
+}
+
+.dropdown-arrow {
+    font-size: 0.6rem;
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    width: 200px;
+    z-index: 1000;
+    border: 1px solid var(--border-color);
+    animation: fadeInDropdown 0.2s ease-out;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.dropdown-item:hover {
+    background-color: var(--background-color);
+}
+
+.dropdown-item.logout {
+    color: var(--primary-color);
+}
+
+.dropdown-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 0.5rem 0;
+}
+
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

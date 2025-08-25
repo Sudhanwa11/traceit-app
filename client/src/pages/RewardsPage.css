@@ -1,0 +1,114 @@
+/* client/src/pages/RewardsPage.css */
+.rewards-page-container {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.retrieved-items-list {
+    flex: 2; /* Takes up 2/3 of the space */
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.retrieved-items-list h2 {
+    margin-top: 0;
+    color: #8B4513;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.retrieved-items-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.retrieved-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.retrieved-item:last-child {
+    border-bottom: none;
+}
+
+.item-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.item-points {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.rewards-sidebar {
+    flex: 1; /* Takes up 1/3 of the space */
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    align-self: flex-start; /* Sticks to the top */
+}
+
+.rewards-sidebar h3 {
+    margin-top: 0;
+    text-align: center;
+    color: #8B4513;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.points-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.points-label {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.points-total {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #f08080;
+}
+
+.reward-goal .goal-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.reward-goal .goal-description {
+    color: #777;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.no-rewards-message {
+    margin-top: 2rem;
+    text-align: center;
+    background-color: #fff9f0;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #a0522d;
+}

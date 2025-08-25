@@ -1,0 +1,124 @@
+/* client/src/components/items/ItemCard.css */
+.item-card {
+    background: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    margin-bottom: 1.5rem; /* Use margin-bottom instead of margin for grid layouts */
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px var(--shadow-color);
+}
+
+.item-image-placeholder {
+    background: rgba(128, 128, 128, 0.1);
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-weight: bold;
+}
+
+.item-card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-card-content h3 {
+    margin-top: 0;
+    color: var(--heading-color);
+}
+
+.item-location {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.item-description {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    flex-grow: 1; 
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.item-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+}
+
+.item-category {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* ADD THESE STYLES TO THE END OF ItemCard.css */
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* In ItemCard.css, REPLACE the old match-info and claim-btn rules */
+
+.card-action-section {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.similarity-score {
+    font-weight: bold;
+    color: var(--heading-color);
+    white-space: nowrap;
+}
+
+.similarity-score span {
+    color: #4caf50; /* Green for score */
+    font-size: 1.1rem;
+}
+
+.card-action-btn {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0; /* Prevents the button from shrinking */
+}
+
+.card-action-btn:hover {
+    opacity: 0.9;
+}

@@ -1,0 +1,87 @@
+/* client/src/pages/AboutPage.css */
+.about-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.about-card {
+    background: var(--card-background); /* Use theme variable */
+    padding: 2.5rem 3rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-color); /* Use theme variable */
+    border: 1px solid var(--border-color); /* Use theme variable */
+}
+
+.about-title {
+    text-align: center;
+    color: var(--heading-color); /* Use theme variable */
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid var(--border-color); /* Use theme variable */
+    padding-bottom: 1rem;
+}
+
+.about-section {
+    margin-bottom: 2.5rem;
+}
+
+.about-section h3 {
+    color: var(--heading-color); /* Use theme variable */
+    opacity: 0.9;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.about-section p {
+    color: var(--text-color); /* Use theme variable */
+    line-height: 1.7;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.how-it-works-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.how-it-works-list li {
+    background-color: var(--background-color); /* Use theme variable */
+    border: 1px solid var(--border-color); /* Use theme variable */
+    border-radius: 8px;
+    padding: 1.5rem;
+    flex: 1;
+    text-align: center;
+}
+
+.how-it-works-list h4 {
+    color: var(--primary-color); /* Use theme variable */
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.creator-section {
+    text-align: center;
+    background-color: var(--background-color); /* Use theme variable */
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

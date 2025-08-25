@@ -1,0 +1,131 @@
+/* client/src/pages/QueryPage.css */
+.query-page-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.query-page-container h2 {
+    text-align: center;
+    color: var(--heading-color);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.query-section {
+    margin-bottom: 3rem;
+}
+
+.query-section h3 {
+    color: var(--heading-color);
+    opacity: 0.9;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.items-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.empty-message {
+    width: 100%;
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.7;
+    padding: 2rem;
+    background: var(--card-background);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* ADD THESE STYLES TO THE END OF QueryPage.css */
+
+.claims-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.claim-card {
+    background: var(--card-background);
+    border-left: 5px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.claim-card h4 {
+    margin-top: 0;
+    color: var(--heading-color);
+}
+
+.claim-card p {
+    margin: 0.5rem 0;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.proof-text {
+    background: var(--background-color);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    font-style: italic;
+}
+
+.claim-footer {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    font-weight: bold;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+}
+
+.claim-card.status-pending { border-left-color: #ffc107; } /* Yellow */
+.claim-card.status-approved { border-left-color: #28a745; } /* Green */
+.claim-card.status-rejected { border-left-color: #dc3545; } /* Red */
+
+.status-pending .status-badge { background-color: #ffc107; color: #333; }
+.status-approved .status-badge { background-color: #28a745; color: #fff; }
+.status-rejected .status-badge { background-color: #dc3545; color: #fff; }
+
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.action-buttons button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.action-buttons button:hover {
+    opacity: 0.8;
+}
+
+.btn-approve {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    color: white;
+}

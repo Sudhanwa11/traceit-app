@@ -1,0 +1,115 @@
+/* client/src/pages/ProfilePage.css */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.profile-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-header h2 {
+    color: #8B4513; /* Brown */
+    margin: 0;
+}
+
+.edit-profile-btn {
+    background-color: #f08080; /* Light Coral */
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background-color: #cd5c5c; /* Indian Red */
+}
+
+.profile-details {
+    margin-bottom: 2rem;
+}
+
+.info-field {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-field:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.info-value {
+    color: #333;
+}
+
+.service-points-section {
+    background-color: #fff9f0; /* Very light peach */
+    border: 1px solid #fbc4ab;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.service-points-section h3 {
+    color: #8B4513;
+    margin-top: 0;
+}
+
+.points-display {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #f08080;
+    margin: 0.5rem 0;
+}
+
+.points-description {
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Reusing loader from HomePage.css, but adding it here for completeness */
+.loader {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #8B4513;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

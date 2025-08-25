@@ -1,0 +1,166 @@
+/* client/src/pages/HomePage.css */
+
+.homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 2rem;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+.welcome-text {
+    flex: 1;
+    text-align: left;
+}
+
+/* Use the new --heading-color variable for high contrast */
+.hero-section h2 {
+    color: var(--heading-color);
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* Use the default --text-color which is now light in dark mode */
+.hero-section p {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 2.5rem;
+}
+
+.hero-logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-logo {
+    max-width: 300px;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* CSS trick to make the logo look better in dark mode */
+[data-theme='dark'] .hero-logo {
+    filter: invert(0.9) hue-rotate(180deg);
+}
+
+.elegant-divider {
+    height: 2px;
+    width: 80px;
+    background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+    margin: 2rem 0;
+}
+
+.benefits-section {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Use the new --heading-color for this title as well */
+.benefits-section h3 {
+    font-size: 2rem;
+    color: var(--heading-color);
+    margin-bottom: 2.5rem;
+}
+
+.benefits-cards {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.benefit-card {
+    background: var(--card-background);
+    color: var(--text-color); /* Ensure card text uses theme color */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    flex: 1;
+    max-width: 350px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color); /* Add a border */
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.benefit-card h4 {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.benefit-card p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* ... Keep all @keyframes and .loader styles the same ... */
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-15px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+.title-animation {
+    animation: slide-in-top 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.subtitle-animation {
+    animation: slide-in-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s both;
+}
+
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--header-background);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
