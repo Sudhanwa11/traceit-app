@@ -1,0 +1,20 @@
+# Dependencies
+/node_modules
+/server/node_modules
+/client/node_modules
+
+# Production build folder from React
+/client/build
+
+# Environment variables
+/server/.env
+/client/.env
+.env
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
