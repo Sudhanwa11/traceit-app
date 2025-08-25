@@ -114,3 +114,13 @@
         transform: translateY(0);
     }
 }
+
+/* ADD THESE STYLES TO Form.css */
+.success-view {
+    text-align: center;
+}
+
+.success-view h2:first-of-type {
+    font-size: 4rem;
+    margin-bottom: 0;
+}

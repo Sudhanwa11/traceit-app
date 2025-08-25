@@ -1,3 +1,4 @@
+// client/src/services/itemService.js
 import axios from 'axios';
 
 const API_URL = '/api/items';
@@ -25,7 +26,13 @@ const getMyItems = async () => {
     return response.data;
 };
 
-// --- MISSING FUNCTION ADDED ---
+// --- NEWLY ADDED FUNCTION ---
+// Get a single item by its ID
+const getItemById = async (itemId) => {
+    const response = await axios.get(`${API_URL}/${itemId}`);
+    return response.data;
+};
+
 // Find semantic matches for a lost item
 const findMatches = async (itemId) => {
     const response = await axios.get(`${API_URL}/matches/${itemId}`);
@@ -44,7 +51,6 @@ const getReceivedClaims = async () => {
 };
 
 // Respond to a claim (approve or reject)
-// Renamed 'response' parameter to 'responseData' to avoid conflict
 const respondToClaim = async (claimId, responseData) => {
     const response = await axios.put(`/api/claims/${claimId}/respond`, responseData);
     return response.data;
@@ -56,7 +62,8 @@ const itemService = {
     reportItem,
     getMyRetrievedItems,
     getMyItems,
-    findMatches, // Added to export
+    getItemById, // Added to export
+    findMatches,
     createClaim,
     getReceivedClaims,
     respondToClaim

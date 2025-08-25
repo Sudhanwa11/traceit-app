@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
 import itemService from '../services/itemService';
 import ItemCard from '../components/items/ItemCard';
-import Modal from '../components/common/Modal'; // Import the Modal component
+import Modal from '../components/common/Modal';
 import './MatchesPage.css';
 
 const MatchesPage = () => {
@@ -15,9 +15,9 @@ const MatchesPage = () => {
 
     const [originalItem, setOriginalItem] = useState(null);
     const [matches, setMatches] = useState([]);
+    const [selfMatchCount, setSelfMatchCount] = useState(0); // State for self-matches
     const [loading, setLoading] = useState(true);
 
-    // State for the claim modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [proof, setProof] = useState('');
@@ -33,10 +33,11 @@ const MatchesPage = () => {
                 try {
                     const [itemData, matchData] = await Promise.all([
                         itemService.getItemById(itemId),
-                        itemService.findMatches(itemId)
+                        itemService.findMatches(itemId) // API now returns an object
                     ]);
                     setOriginalItem(itemData);
-                    setMatches(matchData);
+                    setMatches(matchData.matches); // Set matches from the response object
+                    setSelfMatchCount(matchData.selfMatchCount); // Set the self-match count
                 } catch (error) {
                     console.error("Failed to fetch matches:", error);
                 } finally {
@@ -47,7 +48,6 @@ const MatchesPage = () => {
         }
     }, [itemId, isAuthenticated, authLoading, navigate]);
 
-    // Handlers for opening and closing the claim modal
     const handleOpenModal = (item) => {
         setSelectedItem(item);
         setIsModalOpen(true);
@@ -61,10 +61,9 @@ const MatchesPage = () => {
         setSelectedItem(null);
     };
 
-    // Handler for submitting the claim from the modal
     const handleClaimSubmit = async () => {
         if (!proof) {
-            alert('Proof of ownership is required.'); // Simple validation
+            alert('Proof of ownership is required.');
             return;
         }
         try {
@@ -73,7 +72,6 @@ const MatchesPage = () => {
             handleCloseModal();
         } catch (err) {
             const errorMessage = err.response?.data?.msg || t('claimModal.errorMessage');
-            // Display error as an alert or a message on the page
             alert(errorMessage);
             handleCloseModal();
         }
@@ -89,6 +87,14 @@ const MatchesPage = () => {
             {error && <div className="error-message page-message">{error}</div>}
 
             <h2>{t('matchesPage.title')}</h2>
+
+            {/* --- Display Warning for Self-Matches --- */}
+            {selfMatchCount > 0 && (
+                <div className="warning-message">
+                    <h3>{t('matchesPage.selfMatchWarningTitle')}</h3>
+                    <p>{t('matchesPage.selfMatchWarningText')}</p>
+                </div>
+            )}
             
             {originalItem && (
                 <section className="original-item-section">
@@ -110,7 +116,7 @@ const MatchesPage = () => {
                                 isMatch={true}
                                 actionButton={{
                                     text: t('matchesPage.claimButton'),
-                                    onClick: () => handleOpenModal(item) // Connect button to open modal
+                                    onClick: () => handleOpenModal(item)
                                 }}
                             />
                         ))
@@ -123,7 +129,6 @@ const MatchesPage = () => {
                 </div>
             </section>
             
-            {/* The Modal for submitting a claim */}
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <div className="claim-modal-content">
                     <h2>{t('claimModal.title')}</h2>

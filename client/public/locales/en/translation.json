@@ -39,7 +39,10 @@
     "successMessage": "Item reported successfully! Redirecting to home...",
     "errorMessage": "Failed to report item. Please try again.",
     "subCategory": "Sub-Category",
-    "mediaUpload": "Upload Photos / Videos"
+    "mediaUpload": "Upload Photos / Videos",
+    "successTitle": "Report Submitted!",
+    "successText": "Thank you for helping our campus community. Your report has been posted.",
+    "reportAnother": "Report Another Item"
   },
   "requestPage": {
     "title": "Request a Lost Item",
@@ -61,7 +64,10 @@
     "submit": "Submit Request",
     "successMessage": "Lost item request submitted successfully! We will notify you of potential matches.",
     "errorMessage": "Failed to submit request. Please try again.",
-    "mediaUpload": "Upload Photos / Videos (Optional)"
+    "mediaUpload": "Upload Photos / Videos (Optional)",
+    "successTitle": "Request Submitted!",
+    "successText": "Your request has been posted. We are now searching for potential matches for you.",
+    "requestAnother": "Request Another Item"
   },
   "profilePage": {
     "title": "My Profile",
@@ -437,20 +443,22 @@
     "noMatches": "No potential matches found at this time.",
     "noMatchesInfo": "We'll keep searching and notify you if a new item is reported that matches your description. You can also check with the faculty coordinator's office.",
     "similarity": "Similarity:",
-    "claimButton": "Claim This Item"
+    "claimButton": "Claim This Item",
+    "selfMatchWarningTitle": "Potential Misuse Detected",
+    "selfMatchWarningText": "Our system found a match that was also reported by your account. Please note that reporting and requesting the same item is considered a misuse of this application."
   },
   "matchesRedirectPage": {
     "noRequestsTitle": "No Active Requests",
     "noRequestsInfo": "You have not submitted any lost item requests. Please go to the 'Request Item' page to create one, and then you can see potential matches here."
   },
   "claimModal": {
-  "title": "Submit a Claim",
-  "subtitle": "To help the owner verify your claim, please provide proof of ownership.",
-  "proofLabel": "Proof of Ownership",
-  "proofPlaceholder": "e.g., Describe a unique scratch, the lock screen wallpaper, a specific file on the device, or the last few contacts you called...",
-  "submitButton": "Submit Claim",
-  "cancelButton": "Cancel",
-  "successMessage": "Claim submitted successfully! The item reporter has been notified.",
-  "errorMessage": "Failed to submit claim. You may have already claimed this item."
+    "title": "Submit a Claim",
+    "subtitle": "To help the owner verify your claim, please provide proof of ownership.",
+    "proofLabel": "Proof of Ownership",
+    "proofPlaceholder": "e.g., Describe a unique scratch, the lock screen wallpaper, a specific file on the device, or the last few contacts you called...",
+    "submitButton": "Submit Claim",
+    "cancelButton": "Cancel",
+    "successMessage": "Claim submitted successfully! The item reporter has been notified.",
+    "errorMessage": "Failed to submit claim. You may have already claimed this item."
   }
 }

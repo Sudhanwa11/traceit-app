@@ -11,6 +11,7 @@ const ReportItemPage = () => {
     const { t } = useTranslation();
     const { isAuthenticated, loading } = useContext(AuthContext);
 
+    // State to hold all form field data
     const [formData, setFormData] = useState({
         itemName: '',
         description: '',
@@ -24,6 +25,7 @@ const ReportItemPage = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [files, setFiles] = useState(null);
+    const [isSubmitted, setIsSubmitted] = useState(false); // State to toggle success view
 
     const { itemName, description, mainCategory, subCategory, location, currentLocation } = formData;
 
@@ -77,12 +79,7 @@ const ReportItemPage = () => {
 
         try {
             await itemService.reportItem(data);
-            setMessage(t('reportPage.successMessage'));
-            
-            setTimeout(() => {
-                navigate('/');
-            }, 2000);
-
+            setIsSubmitted(true); // On success, switch to the success view
         } catch (err) {
             const errorMessage = err.response?.data?.msg || t('reportPage.errorMessage');
             setError(errorMessage);
@@ -90,68 +87,94 @@ const ReportItemPage = () => {
         }
     };
 
+    // Resets the form to allow another submission
+    const resetForm = () => {
+        setFormData({
+            itemName: '',
+            description: '',
+            mainCategory: '',
+            subCategory: '',
+            location: '',
+            currentLocation: ''
+        });
+        setFiles(null);
+        setSubCategoryOptions([]);
+        setIsSubmitted(false);
+    };
+
     return (
         <div className="form-container">
-            <div className="form-wrapper">
-                <h2>{t('reportPage.title')}</h2>
-                <p>{t('reportPage.subtitle')}</p>
-                
-                {error && <div className="error-message">{error}</div>}
-                {message && <div className="success-message">{message}</div>}
-
-                <form onSubmit={onSubmit}>
-                    <div className="form-group">
-                        <label>{t('reportPage.itemName')}</label>
-                        <input type="text" name="itemName" value={itemName} onChange={onChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label>{t('reportPage.description')}</label>
-                        <textarea name="description" value={description} onChange={onChange} required placeholder={t('reportPage.descriptionPlaceholder')}></textarea>
-                    </div>
-
-                    <div className="form-group">
-                        <label>{t('reportPage.category')}</label>
-                        <select name="mainCategory" value={mainCategory} onChange={handleMainCategoryChange} required>
-                            {/* UPDATED LINE */}
-                            <option value="" disabled>{t('reportPage.selectMainCategory')}</option>
-                            {Object.keys(categories).map(cat => (
-                                <option key={cat} value={cat}>
-                                    {t(`categories.${cat}._main`)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+            {isSubmitted ? (
+                // --- SUCCESS VIEW ---
+                <div className="form-wrapper success-view">
+                    <h2>✅</h2>
+                    <h2>{t('reportPage.successTitle')}</h2>
+                    <p>{t('reportPage.successText')}</p>
+                    <button className="btn-submit" onClick={resetForm}>
+                        {t('reportPage.reportAnother')}
+                    </button>
+                </div>
+            ) : (
+                // --- FORM VIEW ---
+                <div className="form-wrapper">
+                    <h2>{t('reportPage.title')}</h2>
+                    <p>{t('reportPage.subtitle')}</p>
                     
-                    <div className="form-group">
-                        <label>{t('reportPage.subCategory', 'Sub-Category')}</label>
-                        <select name="subCategory" value={subCategory} onChange={onChange} required disabled={!mainCategory}>
-                            {/* UPDATED LINE */}
-                            <option value="" disabled>{t('reportPage.selectSubCategory')}</option>
-                            {subCategoryOptions.map(subCat => (
-                                <option key={subCat} value={subCat}>
-                                    {t(`categories.${mainCategory}.${subCat}`)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    {error && <div className="error-message">{error}</div>}
+                    {message && <div className="success-message">{message}</div>}
 
-                    <div className="form-group">
-                        <label>{t('reportPage.locationFound')}</label>
-                        <input type="text" name="location" value={location} onChange={onChange} required placeholder={t('reportPage.locationFoundPlaceholder')} />
-                    </div>
-                    <div className="form-group">
-                        <label>{t('reportPage.currentLocation')}</label>
-                        <input type="text" name="currentLocation" value={currentLocation} onChange={onChange} required placeholder={t('reportPage.currentLocationPlaceholder')} />
-                    </div>
-                    
-                    <div className="form-group">
-                        <label>{t('reportPage.mediaUpload')}</label>
-                        <input type="file" name="media" onChange={onFileChange} multiple accept="image/*,video/*" />
-                    </div>
+                    <form onSubmit={onSubmit}>
+                        <div className="form-group">
+                            <label>{t('reportPage.itemName')}</label>
+                            <input type="text" name="itemName" value={itemName} onChange={onChange} required />
+                        </div>
+                        <div className="form-group">
+                            <label>{t('reportPage.description')}</label>
+                            <textarea name="description" value={description} onChange={onChange} required placeholder={t('reportPage.descriptionPlaceholder')}></textarea>
+                        </div>
 
-                    <button type="submit" className="btn-submit">{t('reportPage.submit')}</button>
-                </form>
-            </div>
+                        <div className="form-group">
+                            <label>{t('reportPage.category')}</label>
+                            <select name="mainCategory" value={mainCategory} onChange={handleMainCategoryChange} required>
+                                <option value="" disabled>{t('reportPage.selectMainCategory')}</option>
+                                {Object.keys(categories).map(cat => (
+                                    <option key={cat} value={cat}>
+                                        {t(`categories.${cat}._main`)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label>{t('reportPage.subCategory', 'Sub-Category')}</label>
+                            <select name="subCategory" value={subCategory} onChange={onChange} required disabled={!mainCategory}>
+                                <option value="" disabled>{t('reportPage.selectSubCategory')}</option>
+                                {subCategoryOptions.map(subCat => (
+                                    <option key={subCat} value={subCat}>
+                                        {t(`categories.${mainCategory}.${subCat}`)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label>{t('reportPage.locationFound')}</label>
+                            <input type="text" name="location" value={location} onChange={onChange} required placeholder={t('reportPage.locationFoundPlaceholder')} />
+                        </div>
+                        <div className="form-group">
+                            <label>{t('reportPage.currentLocation')}</label>
+                            <input type="text" name="currentLocation" value={currentLocation} onChange={onChange} required placeholder={t('reportPage.currentLocationPlaceholder')} />
+                        </div>
+                        
+                        <div className="form-group">
+                            <label>{t('reportPage.mediaUpload')}</label>
+                            <input type="file" name="media" onChange={onFileChange} multiple accept="image/*,video/*" />
+                        </div>
+
+                        <button type="submit" className="btn-submit">{t('reportPage.submit')}</button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 };

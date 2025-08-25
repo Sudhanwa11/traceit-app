@@ -1,3 +1,4 @@
+// server/models/Item.js
 const mongoose = require('mongoose');
 
 const ItemSchema = new mongoose.Schema({
@@ -14,7 +15,6 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // --- UPDATED CATEGORY SYSTEM ---
     mainCategory: {
         type: String,
         required: true,
@@ -29,7 +29,6 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // --- AI SEMANTIC SEARCH FIELD ---
     descriptionEmbedding: {
         type: [Number],
     },
@@ -48,12 +47,10 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         enum: ['< ₹500', '₹500 - ₹2000', '₹2000 - ₹5000', '> ₹5000', 'Priceless'],
     },
-    media: [{ 
+    media: [{ // This is the correct field
         type: String,
     }],
-    images: [{
-        type: String,
-    }],
+    // The redundant "images" field has been removed from here
     reportedBy: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

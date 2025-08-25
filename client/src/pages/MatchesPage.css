@@ -116,3 +116,30 @@
     border: 2px solid var(--border-color);
     color: var(--text-color);
 }
+
+/* ADD THESE STYLES TO MatchesPage.css */
+
+.warning-message {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.warning-message h3 {
+    margin-top: 0;
+    color: #856404;
+}
+
+[data-theme='dark'] .warning-message {
+    background-color: #332701;
+    color: #ffda6a;
+    border-color: #856404;
+}
+
+[data-theme='dark'] .warning-message h3 {
+    color: #ffda6a;
+}

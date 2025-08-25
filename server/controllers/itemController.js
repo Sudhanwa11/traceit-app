@@ -1,8 +1,6 @@
-// server/controllers/itemController.js
-
 const Item = require('../models/Item');
 const User = require('../models/User');
-const { GoogleGenerativeAI } = require('@google/generative-ai'); // 1. Import Gemini
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // Controller to create/report a new item
 exports.createItem = async (req, res) => {
@@ -32,29 +30,24 @@ exports.createItem = async (req, res) => {
             reportedBy: req.user.id,
         });
 
-        // ==========================================================
-        // 2. NEW: GEMINI EMBEDDING LOGIC
-        // ==========================================================
+        // --- FIX: HANDLE FILE UPLOADS ---
+        if (req.files) {
+            newItem.media = req.files.map(file => file.path); // Save file paths
+        }
+        // --- END FIX ---
+
         try {
             const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
             const model = genAI.getGenerativeModel({ model: "embedding-001"});
-
-            // Create a detailed text string for the AI to understand the context better
             const textToEmbed = `Item Name: ${newItem.itemName}, Description: ${newItem.description}, Category: ${newItem.mainCategory} - ${newItem.subCategory}.`;
             
             const result = await model.embedContent(textToEmbed);
             const embedding = result.embedding;
             newItem.descriptionEmbedding = embedding.values;
-
         } catch (aiError) {
             console.error("Error generating AI embedding:", aiError);
-            // Decide if you want to fail the whole process or save the item without an embedding
-            // For now, we'll let it fail so we know if the API key is working.
             return res.status(500).send('Failed to generate AI embedding.');
         }
-        // ==========================================================
-        // END: GEMINI LOGIC
-        // ==========================================================
 
         const item = await newItem.save();
         res.status(201).json(item);
@@ -64,9 +57,6 @@ exports.createItem = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
-
-// ... KEEP ALL OTHER CONTROLLER FUNCTIONS (getFoundItems, getItemById, getMyItems, etc.) THE SAME ...
-// Make sure to copy them back in if you are replacing the whole file.
 
 // Controller to get all "Found" items for the public feed
 exports.getFoundItems = async (req, res) => {
@@ -85,7 +75,7 @@ exports.getFoundItems = async (req, res) => {
 exports.getItemById = async (req, res) => {
     try {
         const item = await Item.findById(req.params.id)
-                              .populate('reportedBy', 'name department phoneNumber');
+                                  .populate('reportedBy', 'name department phoneNumber');
         if (!item) {
             return res.status(404).json({ msg: 'Item not found' });
         }
@@ -126,32 +116,32 @@ exports.getMyRetrievedItems = async (req, res) => {
 
 exports.findSemanticMatches = async (req, res) => {
     try {
-        // 1. Find the user's "Lost" item to get its vector embedding.
-        const lostItem = await Item.findById(req.params.itemId);
+        // Find the user's "Lost" item to get its vector embedding.
+        const lostItem = await Item.findById(req.params.id);
 
         if (!lostItem || !lostItem.descriptionEmbedding || lostItem.descriptionEmbedding.length === 0) {
             return res.status(404).json({ msg: 'Lost item or its AI embedding not found.' });
         }
 
-        // 2. Use a MongoDB Aggregation Pipeline with $vectorSearch to find similar items.
+        // Use a MongoDB Aggregation Pipeline with $vectorSearch to find similar items.
         const potentialMatches = await Item.aggregate([
             {
                 $vectorSearch: {
-                    index: 'vector_index', // The name of the index you created in Atlas
+                    index: 'vector_index',
                     path: 'descriptionEmbedding',
                     queryVector: lostItem.descriptionEmbedding,
-                    numCandidates: 150, // Number of candidates to consider for accuracy
-                    limit: 10, // Return the top 10 most similar items
+                    numCandidates: 150,
+                    limit: 10,
                 }
             },
             {
                 $match: {
-                    status: "Found", // We only want to match against items that have been "Found"
-                    isRetrieved: false // And that haven't already been retrieved
+                    status: "Found",
+                    isRetrieved: false
                 }
             },
             {
-                $project: { // Specify which fields to return
+                $project: {
                     _id: 1,
                     itemName: 1,
                     description: 1,
@@ -161,17 +151,25 @@ exports.findSemanticMatches = async (req, res) => {
                     media: 1,
                     createdAt: 1,
                     reportedBy: 1,
-                    score: { $meta: "vectorSearchScore" } // Include the similarity score
+                    score: { $meta: "vectorSearchScore" }
                 }
             }
         ]);
 
-        // 3. Implement the Self-Matching Rule: Filter out items the same user reported.
-        const filteredMatches = potentialMatches.filter(match => 
-            match.reportedBy.toString() !== lostItem.reportedBy.toString()
-        );
+        // Separate the results into valid matches and self-matches
+        let validMatches = [];
+        let selfMatchCount = 0;
 
-        res.json(filteredMatches);
+        potentialMatches.forEach(match => {
+            if (match.reportedBy.toString() !== lostItem.reportedBy.toString()) {
+                validMatches.push(match);
+            } else {
+                selfMatchCount++;
+            }
+        });
+
+        // Return an object with both the valid matches and the count of self-matches
+        res.json({ matches: validMatches, selfMatchCount: selfMatchCount });
 
     } catch (err) {
         console.error("Error in findSemanticMatches:", err.message);
