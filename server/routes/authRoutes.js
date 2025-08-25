@@ -6,7 +6,10 @@ const authMiddleware = require('../middleware/authMiddleware');
 const { 
     registerUser, 
     loginUser, 
-    getLoggedInUser 
+    getLoggedInUser,
+    updateUserDetails,
+    viewSensitiveData,
+    updateSensitiveData
 } = require('../controllers/authController');
 
 // @route   GET /api/auth
@@ -24,5 +27,11 @@ router.post('/register', registerUser);
 // @desc    Authenticate user & get token
 // @access  Public
 router.post('/login', loginUser);
+
+router.put('/update', authMiddleware, updateUserDetails);
+
+router.post('/view-sensitive', authMiddleware, viewSensitiveData);
+
+router.put('/update-sensitive', authMiddleware, updateSensitiveData);
 
 module.exports = router;

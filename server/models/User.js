@@ -33,6 +33,18 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    // --- NEW FIELDS ---
+    address: {
+        type: String,
+    },
+    aadharNumber: {
+        type: String,
+    },
+    
+    servicePoints: {
+        type: Number,
+        default: 0,
+    },
 }, {
     timestamps: true 
 });

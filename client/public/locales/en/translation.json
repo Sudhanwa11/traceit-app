@@ -77,9 +77,35 @@
     "rollNumber": "Roll Number",
     "phoneNumber": "Phone Number",
     "department": "Department",
+    "address": "Address",
+    "aadhar": "Aadhaar Card Number",
     "servicePointsTitle": "Service Points",
     "pointsDisplay": "Points",
-    "pointsDescription": "Earn points by helping others find their lost items!"
+    "pointsDescription": "Earn points by helping others find their lost items!",
+    "editModalTitle": "Edit Your Profile",
+    "saveButton": "Save Changes",
+    "confirmTitle": "Confirm Changes",
+    "confirmText": "Are you sure you want to save these changes to your profile?",
+    "confirmButton": "Confirm",
+    "updateSuccess": "Profile updated successfully!",
+    "verifyTitle": "Verify Your Identity",
+    "verifySubtitle": "Add or view your Aadhaar number for full account verification.",
+    "updateAadhaar": "Update Aadhaar",
+    "addAadhaar": "Add Aadhaar",
+    "viewButton": "View"
+  },
+  "verifyModal": {
+    "title": "Verify Your Identity",
+    "subtitle": "Please enter your password to view your Aadhaar number.",
+    "passwordLabel": "Password",
+    "verifyButton": "Verify"
+  },
+  "aadhaarModal": {
+    "addTitle": "Add Aadhaar Number",
+    "updateTitle": "Update Aadhaar Number",
+    "subtitle": "For security, please confirm your password to save your Aadhaar details.",
+    "confirmPasswordLabel": "Confirm Your Password",
+    "saveButton": "Save Aadhaar"
   },
   "rewardsPage": {
     "title": "My Successful Retrievals",

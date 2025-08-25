@@ -69,8 +69,9 @@
 }
 
 .service-points-section {
-    background-color: #fff9f0; /* Very light peach */
-    border: 1px solid #fbc4ab;
+    margin-top: 2rem; /* <-- This adds the gap */
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
@@ -112,4 +113,104 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ADD THESE STYLES TO ProfilePage.css */
+
+.toast-notification {
+    position: fixed; /* Stays on screen even when scrolling */
+    top: 90px; /* Position it below the navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745; /* Green */
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 2000; /* Ensures it's on top of everything */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
+}
+
+.toast-notification.show {
+    top: 110px; /* Animate it dropping down slightly */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ADD THESE STYLES TO ProfilePage.css */
+
+/* Find and replace these rules in ProfilePage.css */
+
+.verify-section {
+    margin-top: 2rem;
+    padding: 1.5rem; /* Added padding */
+    border-top: none; /* Removed the simple line */
+    background-color: var(--background-color); /* Added a background color */
+    border-radius: 8px; /* Added rounded corners */
+    border: 1px solid var(--border-color);
+}
+
+.verify-section h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--heading-color);
+}
+
+.verify-section p {
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 1.5rem; /* Added space below the text */
+}
+
+.verify-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons to the right */
+    gap: 1rem;
+}
+
+.verify-actions .btn-primary, .verify-actions .btn-secondary {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.verify-actions .btn-primary { background-color: var(--primary-color); color: var(--primary-text); }
+.verify-actions .btn-secondary { background: transparent; border: 2px solid var(--border-color); color: var(--text-color); }
+
+.info-value.sensitive {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.view-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.password-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input input {
+    width: 100%;
+}
+
+.toggle-vis {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    opacity: 0.6;
 }

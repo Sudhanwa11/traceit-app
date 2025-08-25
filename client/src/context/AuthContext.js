@@ -63,6 +63,19 @@ export const AuthProvider = ({ children }) => {
             throw new Error(errorMessage);
         }
     };
+
+    const updateUser = async (formData) => {
+        try {
+            // We'll call the backend to update the user
+            await axios.put('/api/auth/update', formData);
+            // Then, we'll re-fetch the user data to update our global state
+            await loadUser(); 
+        } catch (err) {
+            console.error('Failed to update user', err);
+            // Handle error state if needed
+            setError(err.response?.data?.msg || 'Update failed');
+        }
+    };
     
     const logout = () => {
         setAuthToken(null);
@@ -70,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, error, register, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated: !!user, loading, error, register, login, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
