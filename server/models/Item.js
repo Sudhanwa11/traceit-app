@@ -47,8 +47,10 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         enum: ['< ₹500', '₹500 - ₹2000', '₹2000 - ₹5000', '> ₹5000', 'Priceless'],
     },
-    media: [{ // This is the correct field
-        type: String,
+    media: [{
+        fileId: String,
+        filename: String,
+        contentType: String,
     }],
     // The redundant "images" field has been removed from here
     reportedBy: {

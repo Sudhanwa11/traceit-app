@@ -1,35 +1,23 @@
 // server/middleware/upload.js
 const multer = require('multer');
+const { GridFsStorage } = require('multer-gridfs-storage');
 const path = require('path');
+require('dotenv').config();
 
-// Set storage engine
-const storage = multer.diskStorage({
-    destination: './uploads/',
-    filename: function(req, file, cb){
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+const storage = new GridFsStorage({
+    url: process.env.MONGO_URI,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            const filename = `media-${Date.now()}${path.extname(file.originalname)}`;
+            const fileInfo = {
+                filename: filename,
+                bucketName: 'uploads' // Collection name in MongoDB
+            };
+            resolve(fileInfo);
+        });
     }
 });
 
-// Init upload
-const upload = multer({
-    storage: storage,
-    limits:{fileSize: 10000000}, // Limit file size to 10MB
-    fileFilter: function(req, file, cb){
-        checkFileType(file, cb);
-    }
-});
-
-// Check file type
-function checkFileType(file, cb){
-    const filetypes = /jpeg|jpg|png|gif|mp4|mov|avi/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
-
-    if(mimetype && extname){
-        return cb(null,true);
-    } else {
-        cb('Error: Images and Videos Only!');
-    }
-}
+const upload = multer({ storage });
 
 module.exports = upload;

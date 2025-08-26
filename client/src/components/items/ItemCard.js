@@ -1,9 +1,7 @@
-// client/src/components/items/ItemCard.js
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './ItemCard.css';
 
-// The component now accepts 'actionButton' prop for custom buttons
 const ItemCard = ({ item, isMatch = false, actionButton }) => {
     const { t } = useTranslation();
 
@@ -22,7 +20,9 @@ const ItemCard = ({ item, isMatch = false, actionButton }) => {
         <div className={`item-card ${isMatch ? 'match-card' : ''}`}>
             <div className="item-image-placeholder">
                 {item.media && item.media.length > 0 ? (
-                    <img src={`http://localhost:5000/${item.media[0]}`} alt={item.itemName} className="item-image" />
+                    // --- CORRECTED IMAGE URL ---
+                    // This now points to our new GridFS streaming endpoint
+                    <img src={`http://localhost:5000/api/files/${item.media[0].filename}`} alt={item.itemName} className="item-image" />
                 ) : (
                     <span>No Image</span>
                 )}
@@ -34,7 +34,6 @@ const ItemCard = ({ item, isMatch = false, actionButton }) => {
                 </p>
                 <p className="item-description">{item.description}</p>
                 
-                {/* This section now renders different buttons based on props */}
                 <div className="card-action-section">
                     {isMatch && (
                         <div className="similarity-score">

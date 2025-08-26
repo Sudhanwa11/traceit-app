@@ -40,10 +40,9 @@ exports.registerUser = async (req, res) => {
             },
         };
 
-        // This is the part that was likely causing the 500 error
         jwt.sign(
             payload,
-            process.env.JWT_SECRET, // Make sure JWT_SECRET exists in your .env file
+            process.env.JWT_SECRET,
             { expiresIn: '5h' },
             (err, token) => {
                 if (err) throw err;
@@ -105,7 +104,7 @@ exports.getLoggedInUser = async (req, res) => {
 
 // Function to update user details
 exports.updateUserDetails = async (req, res) => {
-    const { name, phoneNumber, department, address, rollNumber } = req.body;
+    const { name, phoneNumber, department, address, rollNumber, aadharNumber } = req.body;
 
     try {
         const user = await User.findById(req.user.id);
@@ -113,7 +112,7 @@ exports.updateUserDetails = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        // --- NEW: Check if the new roll number is already taken by another user ---
+        // Check if new roll number is already taken
         if (rollNumber && rollNumber !== user.rollNumber) {
             const existingUser = await User.findOne({ rollNumber });
             if (existingUser) {
@@ -130,7 +129,7 @@ exports.updateUserDetails = async (req, res) => {
         user.aadharNumber = aadharNumber || user.aadharNumber;
 
         await user.save();
-        
+
         const userToReturn = await User.findById(req.user.id).select('-password');
         res.json(userToReturn);
     } catch (err) {
@@ -139,7 +138,42 @@ exports.updateUserDetails = async (req, res) => {
     }
 };
 
-// --- NEW FUNCTION for updating Aadhaar ---
+// Function to change password - NEW
+exports.changePassword = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { newPassword } = req.body;
+
+        if (!newPassword || newPassword.length < 6) {
+            return res.status(400).json({ msg: 'Password must be at least 6 characters.' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        await User.findByIdAndUpdate(userId, { password: hashedPassword });
+
+        res.status(200).json({ msg: 'Password changed successfully' });
+    } catch (error) {
+        console.error('Error changing password:', error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+};
+
+// Function to delete user account - NEW
+exports.deleteAccount = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        await User.findByIdAndDelete(userId);
+        res.status(200).json({ msg: 'Account deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+};
+
+// Existing functions for updating and viewing sensitive data (with encryption, password check)...
+
 exports.updateSensitiveData = async (req, res) => {
     const { password, aadharNumber } = req.body;
 
@@ -154,23 +188,20 @@ exports.updateSensitiveData = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid password' });
         }
 
-        // Encrypt and save the new Aadhaar number
         if (aadharNumber) {
             user.aadharNumber = encrypt(aadharNumber);
         } else {
-            user.aadharNumber = undefined; // Allow user to remove it
+            user.aadharNumber = undefined;
         }
 
         await user.save();
         res.json({ msg: 'Aadhaar details updated successfully.' });
-
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 };
 
-// Add this new function to authController.js
 exports.viewSensitiveData = async (req, res) => {
     const { password } = req.body;
     try {
@@ -186,7 +217,6 @@ exports.viewSensitiveData = async (req, res) => {
 
         const decryptedAadhaar = user.aadharNumber ? decrypt(user.aadharNumber) : '';
         res.json({ decryptedAadhaar });
-
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

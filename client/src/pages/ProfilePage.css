@@ -1,4 +1,3 @@
-/* client/src/pages/ProfilePage.css */
 .profile-container {
     display: flex;
     justify-content: center;
@@ -7,31 +6,33 @@
 }
 
 .profile-card {
-    background: #fff;
+    background: var(--card-background, #1f212c);
     padding: 2.5rem;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px var(--shadow-color, rgba(0, 0, 0, 0.25));
     width: 100%;
     max-width: 700px;
+    color: var(--text-color, #fff);
+    border: 1px solid var(--border-color, #2a2d3a);
 }
 
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color, #36394a);
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
 }
 
 .profile-header h2 {
-    color: #8B4513; /* Brown */
+    color: var(--heading-color, #f8b85f); /* Use theme variable, fallback yellow/brown */
     margin: 0;
 }
 
 .edit-profile-btn {
-    background-color: #f08080; /* Light Coral */
-    color: white;
+    background-color: var(--primary-color, #f08080);
+    color: var(--primary-text, #fff);
     border: none;
     padding: 0.6rem 1.2rem;
     border-radius: 5px;
@@ -41,7 +42,7 @@
 }
 
 .edit-profile-btn:hover {
-    background-color: #cd5c5c; /* Indian Red */
+    background-color: #cd5c5c;
 }
 
 .profile-details {
@@ -52,7 +53,7 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-color, #292c37);
 }
 
 .info-field:last-child {
@@ -61,47 +62,47 @@
 
 .info-label {
     font-weight: bold;
-    color: #555;
+    color: var(--heading-color, #f8b85f);
 }
 
 .info-value {
-    color: #333;
+    color: var(--text-color, #fff);
 }
 
 .service-points-section {
-    margin-top: 2rem; /* <-- This adds the gap */
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
+    margin-top: 2rem;
+    background-color: var(--background-color, #222436);
+    border: 1px solid var(--border-color, #36394a);
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
+    color: var(--text-color, #fff);
 }
 
 .service-points-section h3 {
-    color: #8B4513;
+    color: var(--heading-color, #f8b85f);
     margin-top: 0;
 }
 
 .points-display {
     font-size: 3rem;
     font-weight: bold;
-    color: #f08080;
+    color: var(--primary-color, #f08080);
     margin: 0.5rem 0;
 }
 
 .points-description {
-    color: #777;
+    color: var(--text-color, #aaa);
     font-size: 0.9rem;
     margin-bottom: 0;
 }
 
-/* Reusing loader from HomePage.css, but adding it here for completeness */
 .loader {
     text-align: center;
     padding: 2rem;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #8B4513;
+    color: var(--heading-color, #f8b85f);
 }
 
 @keyframes fadeIn {
@@ -115,59 +116,55 @@
     }
 }
 
-/* ADD THESE STYLES TO ProfilePage.css */
-
+/* Toast notification styles */
 .toast-notification {
-    position: fixed; /* Stays on screen even when scrolling */
-    top: 90px; /* Position it below the navbar */
+    position: fixed;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #28a745; /* Green */
-    color: white;
+    background-color: var(--success-color, #28a745);
+    color: var(--primary-text, #fff);
     padding: 1rem 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    z-index: 2000; /* Ensures it's on top of everything */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, top 0.3s ease-in-out;
 }
 
 .toast-notification.show {
-    top: 110px; /* Animate it dropping down slightly */
+    top: 110px;
     opacity: 1;
     visibility: visible;
 }
 
-/* ADD THESE STYLES TO ProfilePage.css */
-
-/* Find and replace these rules in ProfilePage.css */
-
+/* Verify section styles */
 .verify-section {
     margin-top: 2rem;
-    padding: 1.5rem; /* Added padding */
-    border-top: none; /* Removed the simple line */
-    background-color: var(--background-color); /* Added a background color */
-    border-radius: 8px; /* Added rounded corners */
-    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    background-color: var(--background-color, #222436);
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #36394a);
+    color: var(--text-color, #fff);
 }
 
 .verify-section h4 {
     margin-top: 0;
     font-size: 1.2rem;
-    color: var(--heading-color);
+    color: var(--heading-color, #f8b85f);
 }
 
 .verify-section p {
-    color: var(--text-color);
+    color: var(--text-color, #aaa);
     opacity: 0.8;
-    margin-bottom: 1.5rem; /* Added space below the text */
+    margin-bottom: 1.5rem;
 }
 
 .verify-actions {
     margin-top: 1rem;
     display: flex;
-    justify-content: flex-end; /* Aligns buttons to the right */
+    justify-content: flex-end;
     gap: 1rem;
 }
 
@@ -179,9 +176,18 @@
     cursor: pointer;
 }
 
-.verify-actions .btn-primary { background-color: var(--primary-color); color: var(--primary-text); }
-.verify-actions .btn-secondary { background: transparent; border: 2px solid var(--border-color); color: var(--text-color); }
+.verify-actions .btn-primary {
+    background-color: var(--primary-color, #f08080);
+    color: var(--primary-text, #fff);
+}
 
+.verify-actions .btn-secondary {
+    background: transparent;
+    border: 2px solid var(--border-color, #36394a);
+    color: var(--text-color, #fff);
+}
+
+/* Sensitive info toggle/view button styles */
 .info-value.sensitive {
     display: flex;
     align-items: center;
@@ -190,12 +196,12 @@
 
 .view-btn {
     background: none;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color, #36394a);
     padding: 0.2rem 0.6rem;
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.8rem;
-    color: var(--text-color);
+    color: var(--text-color, #fff);
 }
 
 .password-input {
@@ -206,6 +212,10 @@
 
 .password-input input {
     width: 100%;
+    color: var(--text-color, #fff);
+    background: var(--card-background, #23243a);
+    border: 1px solid var(--border-color, #36394a);
+    border-radius: 5px;
 }
 
 .toggle-vis {
@@ -213,4 +223,9 @@
     right: 15px;
     cursor: pointer;
     opacity: 0.6;
+}
+
+/* Allow page-wide backgrounds with theme variable */
+body {
+    background-color: var(--background-color, #171822);
 }

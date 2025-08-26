@@ -30,11 +30,14 @@ exports.createItem = async (req, res) => {
             reportedBy: req.user.id,
         });
 
-        // --- FIX: HANDLE FILE UPLOADS ---
+        // --- UPDATED FILE HANDLING LOGIC ---
         if (req.files) {
-            newItem.media = req.files.map(file => file.path); // Save file paths
+            newItem.media = req.files.map(file => ({
+                fileId: file.id,
+                filename: file.filename,
+                contentType: file.contentType
+            }));
         }
-        // --- END FIX ---
 
         try {
             const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
