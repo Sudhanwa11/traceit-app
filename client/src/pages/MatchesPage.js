@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
 import itemService from '../services/itemService';
 import ItemCard from '../components/items/ItemCard';
-import Modal from '../components/common/Modal';
 import './MatchesPage.css';
 
 const MatchesPage = () => {
@@ -15,14 +14,11 @@ const MatchesPage = () => {
 
     const [originalItem, setOriginalItem] = useState(null);
     const [matches, setMatches] = useState([]);
-    const [selfMatchCount, setSelfMatchCount] = useState(0); // State for self-matches
+    const [selfMatchCount, setSelfMatchCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const [proof, setProof] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [message, setMessage] = useState(''); // For success messages
+    const [error, setError] = useState('');     // For error messages
 
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
@@ -33,52 +29,38 @@ const MatchesPage = () => {
                 try {
                     const [itemData, matchData] = await Promise.all([
                         itemService.getItemById(itemId),
-                        itemService.findMatches(itemId) // API now returns an object
+                        itemService.findMatches(itemId)
                     ]);
                     setOriginalItem(itemData);
-                    setMatches(matchData.matches); // Set matches from the response object
-                    setSelfMatchCount(matchData.selfMatchCount); // Set the self-match count
-                } catch (error) {
-                    console.error("Failed to fetch matches:", error);
+                    setMatches(matchData.matches);
+                    setSelfMatchCount(matchData.selfMatchCount);
+                } catch (err) {
+                    console.error("Failed to fetch matches:", err);
+                    setError(err.response?.data?.msg || t('matchesPage.fetchError'));
                 } finally {
                     setLoading(false);
                 }
             };
             fetchAllData();
         }
-    }, [itemId, isAuthenticated, authLoading, navigate]);
+    }, [itemId, isAuthenticated, authLoading, navigate, t]); // Added t to dependency array
 
-    const handleOpenModal = (item) => {
-        setSelectedItem(item);
-        setIsModalOpen(true);
-        setProof('');
-        setMessage('');
+    // --- UPDATED: handleClaimItem now directly creates a claim ---
+    const handleClaimItem = async (matchedItemId) => {
+        setMessage(''); // Clear previous messages
         setError('');
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setSelectedItem(null);
-    };
-
-    const handleClaimSubmit = async () => {
-        if (!proof) {
-            alert('Proof of ownership is required.');
-            return;
-        }
         try {
-            await itemService.createClaim(selectedItem._id, { proof });
-            setMessage(t('claimModal.successMessage'));
-            handleCloseModal();
+            await itemService.createClaim(matchedItemId);
+            setMessage(t('claimModal.claimSentSuccess')); 
         } catch (err) {
-            const errorMessage = err.response?.data?.msg || t('claimModal.errorMessage');
-            alert(errorMessage);
-            handleCloseModal();
+            console.error("Failed to create claim:", err);
+            setError(err.response?.data?.msg || t('claimModal.claimSentError')); // Use new translation key for error
         }
     };
+
 
     if (loading || authLoading) {
-        return <div className="loader">Searching for matches with AI...</div>;
+        return <div className="loader">{t('matchesPage.loadingMatches')}</div>;
     }
 
     return (
@@ -88,7 +70,6 @@ const MatchesPage = () => {
 
             <h2>{t('matchesPage.title')}</h2>
 
-            {/* --- Display Warning for Self-Matches --- */}
             {selfMatchCount > 0 && (
                 <div className="warning-message">
                     <h3>{t('matchesPage.selfMatchWarningTitle')}</h3>
@@ -116,7 +97,7 @@ const MatchesPage = () => {
                                 isMatch={true}
                                 actionButton={{
                                     text: t('matchesPage.claimButton'),
-                                    onClick: () => handleOpenModal(item)
+                                    onClick: () => handleClaimItem(item._id) // Direct call
                                 }}
                             />
                         ))
@@ -128,26 +109,6 @@ const MatchesPage = () => {
                     )}
                 </div>
             </section>
-            
-            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-                <div className="claim-modal-content">
-                    <h2>{t('claimModal.title')}</h2>
-                    <p>{t('claimModal.subtitle')}</p>
-                    <div className="form-group">
-                        <label>{t('claimModal.proofLabel')}</label>
-                        <textarea
-                            value={proof}
-                            onChange={(e) => setProof(e.target.value)}
-                            placeholder={t('claimModal.proofPlaceholder')}
-                            rows="5"
-                        ></textarea>
-                    </div>
-                    <div className="modal-actions">
-                        <button className="btn-secondary" onClick={handleCloseModal}>{t('claimModal.cancelButton')}</button>
-                        <button className="btn-primary" onClick={handleClaimSubmit}>{t('claimModal.submitButton')}</button>
-                    </div>
-                </div>
-            </Modal>
         </div>
     );
 };

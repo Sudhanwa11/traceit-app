@@ -25,7 +25,7 @@ const RequestItemPage = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [files, setFiles] = useState(null);
-    const [submittedItem, setSubmittedItem] = useState(null); // State to hold the new item
+    const [submittedItem, setSubmittedItem] = useState(null);
 
     const { itemName, description, mainCategory, subCategory, location, priceRange, retrievalImportance } = formData;
 
@@ -105,12 +105,14 @@ const RequestItemPage = () => {
                     <h2>✅</h2>
                     <h2>{t('requestPage.successTitle')}</h2>
                     <p>{t('requestPage.successText')}</p>
-                    <Link to={`/matches/${submittedItem._id}`} className="btn-submit view-matches-btn">
-                        View Potential Matches
-                    </Link>
-                    <button className="btn-secondary" onClick={resetForm} style={{marginTop: '1rem'}}>
-                        {t('requestPage.requestAnother')}
-                    </button>
+                    <div className="success-actions">
+                        <Link to={`/matches/${submittedItem._id}`} className="btn-submit">
+                            View Potential Matches
+                        </Link>
+                        <button className="btn-secondary" onClick={resetForm}>
+                            {t('requestPage.requestAnother')}
+                        </button>
+                    </div>
                 </div>
             ) : (
                 // --- FORM VIEW ---
@@ -122,7 +124,6 @@ const RequestItemPage = () => {
                     {message && <div className="success-message">{message}</div>}
 
                     <form onSubmit={onSubmit}>
-                       {/* Form fields are unchanged */}
                         <div className="form-group">
                             <label>{t('requestPage.itemName')}</label>
                             <input type="text" name="itemName" value={itemName} onChange={onChange} required />

@@ -124,3 +124,39 @@
     font-size: 4rem;
     margin-bottom: 0;
 }
+
+/* ADD THESE STYLES TO Form.css */
+
+.success-view {
+    text-align: center;
+}
+
+.success-view h2:first-of-type {
+    font-size: 4rem;
+    margin-bottom: 0;
+}
+
+.success-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* This adds the space between the buttons */
+    margin-top: 2rem;
+}
+
+/* Style for secondary buttons like "Request Another Item" */
+.success-actions .btn-secondary {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.success-actions .btn-secondary:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}

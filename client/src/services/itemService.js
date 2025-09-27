@@ -1,58 +1,69 @@
 // client/src/services/itemService.js
-import axios from 'axios';
+import API from '../utils/api'; // Use the new central API instance
 
-const API_URL = '/api/items';
-
-// Get all publicly listed "Found" items
 const getFoundItems = async () => {
-    const response = await axios.get(`${API_URL}/found`);
+    const response = await API.get('/api/items/found');
     return response.data;
 };
 
 const reportItem = async (itemData) => {
-    const response = await axios.post(API_URL, itemData);
+    const response = await API.post('/api/items', itemData);
     return response.data;
 };
 
-// Get all successfully retrieved items for the logged-in user
 const getMyRetrievedItems = async () => {
-    const response = await axios.get(`${API_URL}/my-retrieved`);
+    const response = await API.get('/api/items/my-retrieved');
     return response.data;
 };
 
-// Get all items reported by the logged-in user
 const getMyItems = async () => {
-    const response = await axios.get(`${API_URL}/my-items`);
+    const response = await API.get('/api/items/my-items');
     return response.data;
 };
 
-// --- NEWLY ADDED FUNCTION ---
-// Get a single item by its ID
 const getItemById = async (itemId) => {
-    const response = await axios.get(`${API_URL}/${itemId}`);
+    const response = await API.get(`/api/items/${itemId}`);
     return response.data;
 };
 
-// Find semantic matches for a lost item
 const findMatches = async (itemId) => {
-    const response = await axios.get(`${API_URL}/matches/${itemId}`);
+    const response = await API.get(`/api/items/matches/${itemId}`);
     return response.data;
 };
 
-const createClaim = async (itemId, proofData) => {
-    const response = await axios.post(`/api/claims/${itemId}`, proofData);
+const deleteItem = async (itemId) => {
+    const response = await API.delete(`/api/items/${itemId}`);
     return response.data;
 };
 
-// Get all claims received by the logged-in user
+// --- Claim related functions ---
+const createClaim = async (itemId) => {
+    const response = await API.post(`/api/claims/${itemId}`);
+    return response.data;
+};
+
 const getReceivedClaims = async () => {
-    const response = await axios.get('/api/claims/received');
+    const response = await API.get('/api/claims/received');
     return response.data;
 };
 
-// Respond to a claim (approve or reject)
-const respondToClaim = async (claimId, responseData) => {
-    const response = await axios.put(`/api/claims/${claimId}/respond`, responseData);
+const getMadeClaims = async () => {
+    const response = await API.get('/api/claims/made');
+    return response.data;
+};
+
+const respondToChatRequest = async (claimId, response) => {
+    const res = await API.put(`/api/claims/${claimId}/respond-chat`, { response });
+    return res.data;
+};
+
+const reporterResolveClaim = async (claimId) => {
+    const response = await API.put(`/api/claims/${claimId}/resolve`);
+    return response.data;
+};
+
+const claimerConfirmRetrieval = async (claimId) => {
+    const response = await API.put(`/api/claims/${claimId}/confirm`);
     return response.data;
 };
 
@@ -62,11 +73,15 @@ const itemService = {
     reportItem,
     getMyRetrievedItems,
     getMyItems,
-    getItemById, // Added to export
+    getItemById,
     findMatches,
+    deleteItem,
     createClaim,
     getReceivedClaims,
-    respondToClaim
+    getMadeClaims,
+    respondToChatRequest,
+    reporterResolveClaim,
+    claimerConfirmRetrieval,
 };
 
 export default itemService;

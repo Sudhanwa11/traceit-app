@@ -7,24 +7,30 @@ const ClaimSchema = new mongoose.Schema({
         ref: 'Item',
         required: true,
     },
-    claimer: { // The user who lost the item and is making the claim
+    claimer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    itemReporter: { // The user who found the item
+    itemReporter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    proof: { // The text proof of ownership provided by the claimer
+    // Proof is no longer required on initial claim
+    proof: {
         type: String,
-        required: true,
     },
     status: {
         type: String,
-        enum: ['pending', 'approved', 'rejected'],
-        default: 'pending',
+        enum: [
+            'pending-chat-approval', // Initial state after claim is made
+            'chat-rejected',
+            'chat-active',           // Chat approved, conversation can happen
+            'resolved-by-reporter',  // Reporter is satisfied
+            'retrieval-confirmed'    // Claimer confirms retrieval
+        ],
+        default: 'pending-chat-approval',
     },
 }, {
     timestamps: true

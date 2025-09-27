@@ -171,11 +171,51 @@ exports.findSemanticMatches = async (req, res) => {
             }
         });
 
+        // --- NEW: Emit Notification for Self-Match ---
+        if (selfMatchCount > 0) {
+            const userId = lostItem.reportedBy.toString();
+            const userSocket = req.onlineUsers.find(user => user.userId === userId);
+            
+            if (userSocket) {
+                req.io.to(userSocket.socketId).emit("misuseNotification", {
+                    key: "notifications.misuseWarning" // Send the key
+                });
+            }
+        }
+
         // Return an object with both the valid matches and the count of self-matches
         res.json({ matches: validMatches, selfMatchCount: selfMatchCount });
 
     } catch (err) {
         console.error("Error in findSemanticMatches:", err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+// --- NEW: Delete an item ---
+exports.deleteItem = async (req, res) => {
+    try {
+        const item = await Item.findById(req.params.id);
+
+        if (!item) {
+            return res.status(404).json({ msg: 'Item not found' });
+        }
+
+        // Make sure the user deleting the item is the one who posted it
+        if (item.reportedBy.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized' });
+        }
+
+        // --- THIS IS THE FIX ---
+        // Use the modern, correct method to delete the item
+        await Item.findByIdAndDelete(req.params.id);
+
+        res.json({ msg: 'Item removed successfully' });
+    } catch (err) {
+        console.error("Error in deleteItem:", err.message);
+        if (err.kind === 'ObjectId') {
+             return res.status(404).json({ msg: 'Item not found' });
+        }
         res.status(500).send('Server Error');
     }
 };

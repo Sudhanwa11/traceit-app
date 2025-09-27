@@ -11,7 +11,6 @@ const ReportItemPage = () => {
     const { t } = useTranslation();
     const { isAuthenticated, loading } = useContext(AuthContext);
 
-    // State to hold all form field data
     const [formData, setFormData] = useState({
         itemName: '',
         description: '',
@@ -25,7 +24,7 @@ const ReportItemPage = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [files, setFiles] = useState(null);
-    const [isSubmitted, setIsSubmitted] = useState(false); // State to toggle success view
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const { itemName, description, mainCategory, subCategory, location, currentLocation } = formData;
 
@@ -79,7 +78,7 @@ const ReportItemPage = () => {
 
         try {
             await itemService.reportItem(data);
-            setIsSubmitted(true); // On success, switch to the success view
+            setIsSubmitted(true); // Switch to the success view
         } catch (err) {
             const errorMessage = err.response?.data?.msg || t('reportPage.errorMessage');
             setError(errorMessage);
@@ -87,7 +86,6 @@ const ReportItemPage = () => {
         }
     };
 
-    // Resets the form to allow another submission
     const resetForm = () => {
         setFormData({
             itemName: '',
@@ -105,17 +103,17 @@ const ReportItemPage = () => {
     return (
         <div className="form-container">
             {isSubmitted ? (
-                // --- SUCCESS VIEW ---
                 <div className="form-wrapper success-view">
                     <h2>✅</h2>
                     <h2>{t('reportPage.successTitle')}</h2>
                     <p>{t('reportPage.successText')}</p>
-                    <button className="btn-submit" onClick={resetForm}>
-                        {t('reportPage.reportAnother')}
-                    </button>
+                    <div className="success-actions">
+                        <button className="btn-submit" onClick={resetForm}>
+                            {t('reportPage.reportAnother')}
+                        </button>
+                    </div>
                 </div>
             ) : (
-                // --- FORM VIEW ---
                 <div className="form-wrapper">
                     <h2>{t('reportPage.title')}</h2>
                     <p>{t('reportPage.subtitle')}</p>

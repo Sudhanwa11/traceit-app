@@ -11,6 +11,7 @@
     flex-direction: column;
     overflow: hidden;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative;
 }
 
 .item-card:hover {
@@ -121,4 +122,67 @@
 
 .card-action-btn:hover {
     opacity: 0.9;
+}
+
+.card-action-btn.btn-delete {
+    background-color: transparent;
+    color: #dc3545; /* Red */
+    border: 1px solid #dc3545;
+}
+.card-action-btn.btn-delete:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.options-menu-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.options-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme='dark'] .options-btn {
+    background: rgba(42, 42, 42, 0.8);
+    color: var(--text-color);
+}
+
+.options-menu {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    width: 160px;
+    animation: fadeInDropdown 0.2s ease-out;
+}
+
+.options-menu li {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.options-menu li:hover {
+    background-color: var(--background-color);
 }

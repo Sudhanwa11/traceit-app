@@ -12,12 +12,23 @@ const Navbar = () => {
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const onLogout = () => {
         setDropdownOpen(false);
         logout();
         navigate('/');
     };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -32,8 +43,7 @@ const Navbar = () => {
     }, [dropdownRef]);
 
     return (
-        <header className="site-header">
-            {/* --- TOP BAR: Contains Brand and User Menu --- */}
+        <header className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
             <div className="top-bar">
                 <Link to="/" className="navbar-brand">
                     <img src={SmallLogo} alt="TraceIt Logo" />
@@ -46,18 +56,13 @@ const Navbar = () => {
                             <button className="user-menu-trigger" onClick={() => setDropdownOpen(!isDropdownOpen)}>
                                 {user.name} <span className="dropdown-arrow">▼</span>
                             </button>
-
                             {isDropdownOpen && (
                                 <ul className="user-dropdown-menu">
                                     <li><Link to="/profile" className="dropdown-item" onClick={() => setDropdownOpen(false)}>{t('nav.profile')}</Link></li>
                                     <li><Link to="/rewards" className="dropdown-item" onClick={() => setDropdownOpen(false)}>{t('nav.rewards')}</Link></li>
                                     <li><Link to="/settings" className="dropdown-item" onClick={() => setDropdownOpen(false)}>{t('nav.settings')}</Link></li>
                                     <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <button onClick={onLogout} className="dropdown-item logout">
-                                            {t('nav.logout')}
-                                        </button>
-                                    </li>
+                                    <li><button onClick={onLogout} className="dropdown-item logout">{t('nav.logout')}</button></li>
                                 </ul>
                             )}
                         </>
@@ -70,7 +75,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* --- MAIN NAV: Contains Page Links --- */}
             <nav className="main-nav">
                 <ul>
                     <li><NavLink className="main-nav-link" to="/" end>{t('nav.home', 'Home')}</NavLink></li>

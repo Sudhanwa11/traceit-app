@@ -1,200 +1,155 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../context/ThemeContext';
-import authService from '../services/authService'; // you must have this with changePassword, deleteAccount methods
+import { AuthContext } from '../context/AuthContext';
+import Modal from '../components/common/Modal';
+import authService from '../services/authService';
 import './SettingsPage.css';
 
 const SettingsPage = () => {
-  const { t, i18n } = useTranslation();
-  const { theme, toggleTheme } = useContext(ThemeContext);
+    const { t, i18n } = useTranslation();
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { logout } = useContext(AuthContext);
 
-  // States for dialogs and form data
-  const [showChangePwdForm, setShowChangePwdForm] = useState(false);
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [confirmAction, setConfirmAction] = useState(null);
-  const [actionInProgress, setActionInProgress] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+    // State for different modals
+    const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+    const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
+    const [dialog, setDialog] = useState({ isOpen: false, message: '' });
 
-  // Handlers for opening dialogs
-  const onChangePasswordClick = () => {
-    setShowChangePwdForm(true);
-  };
+    // State for form data
+    const [passwordData, setPasswordData] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
+    const [deletePassword, setDeletePassword] = useState('');
 
-  const onDeleteAccountClick = () => {
-    setConfirmAction('deleteAccount');
-    setShowConfirmDialog(true);
-  };
+    const handlePasswordFormChange = (e) => {
+        setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
+    };
 
-  // Form submit for change password, opens confirmation dialog
-  const handleChangePasswordSubmit = (e) => {
-    e.preventDefault();
+    const handleChangePasswordSubmit = async (e) => {
+        e.preventDefault();
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            return setDialog({ isOpen: true, message: 'New passwords do not match.' });
+        }
+        try {
+            const res = await authService.changePassword(passwordData);
+            setIsChangePasswordOpen(false);
+            setDialog({ isOpen: true, message: res.msg });
+            setTimeout(() => {
+                setDialog({ isOpen: false, message: '' });
+                logout();
+            }, 2000);
+        } catch (err) {
+            setDialog({ isOpen: true, message: err.response.data.msg });
+        }
+    };
 
-    if (newPassword.length < 6) {
-      alert('Password must be at least 6 characters.');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      alert('Passwords do not match.');
-      return;
-    }
+    const handleDeleteAccountSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await authService.deleteAccount({ password: deletePassword });
+            setIsDeleteAccountOpen(false);
+            setDialog({ isOpen: true, message: res.msg });
+            setTimeout(() => {
+                setDialog({ isOpen: false, message: '' });
+                logout();
+            }, 2000);
+        } catch (err) {
+            setDialog({ isOpen: true, message: err.response.data.msg });
+        }
+    };
 
-    setConfirmAction('changePassword');
-    setShowChangePwdForm(false);
-    setShowConfirmDialog(true);
-  };
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+    };
 
-  // Confirm dialog Yes clicked
-  const onConfirm = async () => {
-    setActionInProgress(true);
-    try {
-      if (confirmAction === 'changePassword') {
-        await authService.changePassword({ newPassword });
-        alert('Password changed successfully.');
-        setNewPassword('');
-        setConfirmPassword('');
-      } else if (confirmAction === 'deleteAccount') {
-        await authService.deleteAccount();
-        alert('Account deleted successfully.');
-        // TODO: Add logout or redirect logic here
-      }
-    } catch (error) {
-      alert(error.response?.data?.msg || 'An error occurred.');
-    } finally {
-      setShowConfirmDialog(false);
-      setActionInProgress(false);
-      setConfirmAction(null);
-    }
-  };
+    return (
+        <div className="settings-container">
+            <h2>{t('settings.title')}</h2>
 
-  // Confirm dialog No clicked
-  const onCancelConfirm = () => {
-    setShowConfirmDialog(false);
-    if (confirmAction === 'changePassword') {
-      setShowChangePwdForm(true); // reopen form if cancelling on confirm
-    }
-    setConfirmAction(null);
-  };
+            {/* Language and Appearance Cards remain the same */}
+            <div className="settings-card">
+                <h3>{t('settings.languageTitle')}</h3>
+                <p>{t('settings.languageDesc')}</p>
+                <div className="language-buttons">
+                    <button className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`} onClick={() => changeLanguage('en')}>English</button>
+                    <button className={`lang-btn ${i18n.language === 'hi' ? 'active' : ''}`} onClick={() => changeLanguage('hi')}>हिन्दी (Hindi)</button>
+                </div>
+            </div>
+            <div className="settings-card">
+                <h3>{t('settings.darkModeTitle')}</h3>
+                <p>{t('settings.darkModeDesc')}</p>
+                <div className="toggle-switch-container">
+                    <span>Light</span>
+                    <label className="toggle-switch"><input type="checkbox" checked={theme === 'dark'} onChange={toggleTheme} /><span className="slider"></span></label>
+                    <span>Dark</span>
+                </div>
+            </div>
 
-  // Language change handler
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
+            {/* Account Management Card */}
+            <div className="settings-card">
+                <h3>{t('settings.accountTitle')}</h3>
+                <button className="settings-btn" onClick={() => setIsChangePasswordOpen(true)}>{t('settings.changePassword')}</button>
+                <button className="settings-btn btn-danger" onClick={() => setIsDeleteAccountOpen(true)}>{t('settings.deleteAccount')}</button>
+            </div>
+            
+            {/* Support Card remains the same */}
+            <div className="settings-card">
+                <h3>{t('settings.helpTitle')}</h3>
+                <button className="settings-btn">{t('settings.help')}</button>
+                <button className="settings-btn">{t('settings.feedback')}</button>
+            </div>
 
-  return (
-    <div className="settings-container">
-      <h2>{t('settings.title')}</h2>
+            {/* --- MODALS --- */}
 
-      {/* --- Language Section --- */}
-      <div className="settings-card">
-        <h3>{t('settings.languageTitle')}</h3>
-        <p>{t('settings.languageDesc')}</p>
-        <div className="language-buttons">
-          <button 
-            className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
-            onClick={() => changeLanguage('en')}
-          >
-            English
-          </button>
-          <button 
-            className={`lang-btn ${i18n.language === 'hi' ? 'active' : ''}`}
-            onClick={() => changeLanguage('hi')}
-          >
-            हिन्दी (Hindi)
-          </button>
+            {/* Change Password Modal */}
+            <Modal isOpen={isChangePasswordOpen} onClose={() => setIsChangePasswordOpen(false)}>
+                <form onSubmit={handleChangePasswordSubmit} className="modal-form">
+                    <h2>{t('settings.changePassword')}</h2>
+                    <div className="form-group">
+                        <label>Old Password</label>
+                        <input type="password" name="oldPassword" value={passwordData.oldPassword} onChange={handlePasswordFormChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label>New Password</label>
+                        <input type="password" name="newPassword" value={passwordData.newPassword} onChange={handlePasswordFormChange} required minLength="6" />
+                    </div>
+                    <div className="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" name="confirmPassword" value={passwordData.confirmPassword} onChange={handlePasswordFormChange} required minLength="6" />
+                    </div>
+                    <div className="modal-actions">
+                        <button type="button" className="btn-secondary" onClick={() => setIsChangePasswordOpen(false)}>Cancel</button>
+                        <button type="submit" className="btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </Modal>
+
+            {/* Delete Account Modal */}
+            <Modal isOpen={isDeleteAccountOpen} onClose={() => setIsDeleteAccountOpen(false)}>
+                <form onSubmit={handleDeleteAccountSubmit} className="modal-form">
+                    <h2>Delete Account</h2>
+                    <p>This action cannot be undone. To confirm, please enter your password.</p>
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input type="password" value={deletePassword} onChange={(e) => setDeletePassword(e.target.value)} required />
+                    </div>
+                    <div className="modal-actions">
+                        <button type="button" className="btn-secondary" onClick={() => setIsDeleteAccountOpen(false)}>Cancel</button>
+                        <button type="submit" className="btn-danger">Delete My Account</button>
+                    </div>
+                </form>
+            </Modal>
+
+            {/* Generic Dialog for Success/Error Messages */}
+            <Modal isOpen={dialog.isOpen} onClose={() => setDialog({ isOpen: false, message: '' })}>
+                <div className="dialog-content">
+                    <p>{dialog.message}</p>
+                    <div className="modal-actions" style={{ justifyContent: 'center' }}>
+                        <button className="btn-primary" onClick={() => setDialog({ isOpen: false, message: '' })}>OK</button>
+                    </div>
+                </div>
+            </Modal>
         </div>
-      </div>
-
-      {/* --- Dark Mode Section --- */}
-      <div className="settings-card">
-        <h3>{t('settings.darkModeTitle')}</h3>
-        <p>{t('settings.darkModeDesc')}</p>
-        <div className="toggle-switch-container">
-          <span>Light</span>
-          <label className="toggle-switch">
-            <input 
-              type="checkbox" 
-              checked={theme === 'dark'} 
-              onChange={toggleTheme} 
-            />
-            <span className="slider"></span>
-          </label>
-          <span>Dark</span>
-        </div>
-      </div>
-
-      {/* --- Account Management Section --- */}
-      <div className="settings-card">
-        <h3>{t('settings.accountTitle')}</h3>
-        <button className="settings-btn" onClick={onChangePasswordClick}>
-          {t('settings.changePassword')}
-        </button>
-        <button className="settings-btn btn-danger" onClick={onDeleteAccountClick}>
-          {t('settings.deleteAccount')}
-        </button>
-      </div>
-
-      {/* --- Support Section --- */}
-      <div className="settings-card">
-        <h3>{t('settings.helpTitle')}</h3>
-        <button className="settings-btn">{t('settings.help')}</button>
-        <button className="settings-btn">{t('settings.feedback')}</button>
-      </div>
-
-      {/* --- Change Password Form Dialog --- */}
-      {showChangePwdForm && (
-        <div className="dialog-overlay">
-          <div className="dialog">
-            <h3>{t('settings.changePassword')}</h3>
-            <form onSubmit={handleChangePasswordSubmit}>
-              <input
-                type="password"
-                placeholder="New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-                minLength={6}
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                minLength={6}
-              />
-              <div className="dialog-actions">
-                <button type="submit" className="btn-confirm" disabled={actionInProgress}>Submit</button>
-                <button 
-                  type="button" 
-                  className="btn-cancel"
-                  onClick={() => setShowChangePwdForm(false)}
-                  disabled={actionInProgress}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* --- Confirmation Dialog --- */}
-      {showConfirmDialog && (
-        <div className="dialog-overlay">
-          <div className="dialog">
-            <p>
-              {confirmAction === 'changePassword' 
-                ? 'Are you sure you want to change your password?' 
-                : 'Are you sure you want to delete your account? This action cannot be undone.'}
-            </p>
-            <button onClick={onConfirm} className="btn-confirm" disabled={actionInProgress}>Yes</button>
-            <button onClick={onCancelConfirm} className="btn-cancel" disabled={actionInProgress}>No</button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default SettingsPage;

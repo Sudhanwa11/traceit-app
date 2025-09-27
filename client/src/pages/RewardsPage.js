@@ -1,18 +1,22 @@
-// client/src/pages/RewardsPage.js
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // 1. Import the hook
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
 import itemService from '../services/itemService';
 import ProgressBar from '../components/rewards/ProgressBar';
+import rewardService from '../services/rewardService'; // Import the reward service
 import './RewardsPage.css';
 
 const RewardsPage = () => {
     const navigate = useNavigate();
-    const { t } = useTranslation(); // 2. Initialize the hook
-    const { user, isAuthenticated, loading: authLoading } = useContext(AuthContext);
+    const { t } = useTranslation();
+    const { user, isAuthenticated, loading: authLoading, loadUser } = useContext(AuthContext); // Get loadUser
     const [retrievedItems, setRetrievedItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [claimMessage, setClaimMessage] = useState(''); // New state for messages
+
+    const REWARD_GOAL = 500;
 
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
@@ -32,13 +36,23 @@ const RewardsPage = () => {
         }
     }, [isAuthenticated, authLoading, navigate]);
 
+    // --- UPDATED FUNCTION to call the backend ---
+    const handleClaimReward = async () => {
+        try {
+            const res = await rewardService.claimReward();
+            setClaimMessage(res.msg); // Show success message from the backend
+            await loadUser(); // Refresh user data to update points total
+        } catch (err) {
+            setClaimMessage(err.response?.data?.msg || 'An error occurred while claiming.');
+        }
+    };
+
     if (authLoading || loading || !user) {
         return <div className="loader">Loading Rewards...</div>;
     }
-    
-    const REWARD_GOAL = 2000;
 
-    // 3. Use the t() function for all text content
+    const canClaimReward = user.servicePoints >= REWARD_GOAL;
+
     return (
         <div className="rewards-page-container">
             <div className="retrieved-items-list">
@@ -68,11 +82,20 @@ const RewardsPage = () => {
                     <p className="goal-description">{t('rewardsPage.rewardGoal')}</p>
                     <ProgressBar value={user.servicePoints} max={REWARD_GOAL} />
                 </div>
-                 {user.servicePoints === 0 && (
-                    <div className="no-rewards-message">
-                        <p>{t('rewardsPage.noRewardsYet')}</p>
-                    </div>
-                )}
+                
+                <div className="claim-section">
+                    {claimMessage ? (
+                        <p className="claim-success-message">{claimMessage}</p>
+                    ) : canClaimReward ? (
+                        <button className="claim-reward-btn" onClick={handleClaimReward}>
+                            🎉 {t('rewardsPage.claimButton')}
+                        </button>
+                    ) : user.servicePoints === 0 ? (
+                        <div className="no-rewards-message">
+                            <p>{t('rewardsPage.noRewardsYet')}</p>
+                        </div>
+                    ) : null}
+                </div>
             </div>
         </div>
     );

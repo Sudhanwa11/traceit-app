@@ -115,7 +115,10 @@
     "totalPoints": "Total Points",
     "nextReward": "Next Reward",
     "rewardGoal": "Custom 'Service Honour' Shirt",
-    "noRewardsYet": "No rewards yet. Start by reporting a found item!"
+    "noRewardsYet": "No rewards yet. Start by reporting a found item!",
+    "claimButton": "Claim Your Reward!",
+    "claimSuccess": "Congratulations! Your reward has been claimed. We will contact you shortly with details.",
+    "goalReached": "You've reached the goal!"
   },
   "settings": {
     "title": "Settings",
@@ -141,8 +144,8 @@
     "step2Text": "Our AI-powered system analyzes descriptions, categories, and locations to help you find potential matches quickly.",
     "step3": "Connect & Retrieve",
     "step3Text": "Once a match is found, you can securely contact the other person to arrange the retrieval of the item.",
-    "creatorTitle": "About the Creator",
-    "creatorText": "This application was built with passion and dedication by [Your Name] to solve a real-world problem for our college community."
+    "creatorTitle": "About the Creators",
+    "creatorText": "TraceIt was developed by a team of passionate students dedicated to enhancing campus life through innovative solutions. This application was brought to life through the collaborative effort and dedication of three passionate students: Sudhanwa, Aditya Jha, and Pawan Meena. Our diverse backgrounds in technology, design, and community service drive us to create tools that make a real difference. We believe in the power of collaboration and are committed to continuously improving TraceIt based on user feedback and evolving needs. Join us in making our campus a safer and more connected place! Feel free to reach out to us with any questions or suggestions."
   },
   "registerPage": {
     "title": "Create Your Account",
@@ -167,6 +170,10 @@
     "switchText": "Don't have an account?",
     "switchLink": "Register here"
   },
+  "notifications": {
+    "newClaim": "You have a new claim on your item: {{itemName}}",
+    "misuseWarning": "Potential Misuse: A match was found that you also reported."
+  },
   "homePageBenefits": {
     "title": "Why Use TraceIt on Campus?",
     "card1Title": "Quick & Easy Reporting",
@@ -177,18 +184,43 @@
     "card3Text": "Earn service points and rewards by helping your fellow students. Be a campus hero!"
   },
   "queryPage": {
-    "title": "My Queries",
-    "reportedTitle": "Items You've Reported (Found)",
-    "requestedTitle": "Items You've Requested (Lost)",
-    "noReported": "You have not reported any found items yet.",
-    "noRequested": "You have not requested any lost items yet.",
-    "claimsReceivedTitle": "Claims Received on Your Items",
-    "noClaims": "You have not received any claims on your reported items yet.",
-    "claimedBy": "Claim by:",
-    "proofProvided": "Proof Provided:",
-    "status": "Status:",
-    "approveButton": "Approve",
-    "rejectButton": "Reject"
+    "title": "My Queries & Claims",
+    "claimsReceivedTitle": "Claims on My Items",
+    "madeClaimsTitle": "My Claims on Other Items",
+    "otherPostsTitle": "My Other Item Posts",
+    "loadingQueries": "Loading your queries...",
+    "fetchError": "Failed to fetch user data.",
+    "chatRequestFrom": "Chat Request From:",
+    "claimOn": "Claim on:",
+    "yourClaimOn": "Your Claim on:",
+    "acceptChat": "Accept Chat",
+    "rejectChat": "Reject Chat",
+    "chatWithClaimer": "Chat with Claimer",
+    "markAsResolved": "Mark as Resolved",
+    "chatWithReporter": "Chat with Reporter",
+    "confirmRetrieval": "Confirm Retrieval",
+    "noClaimsReceived": "No claims have been made on your items yet.",
+    "noMadeClaims": "You have not made any claims yet.",
+    "noOtherPosts": "You have no other active posts.",
+    "waitingForReporterApproval": "Waiting for reporter to approve chat...",
+    "waitingForClaimerConfirmation": "Waiting for claimer to confirm retrieval...",
+    "retrievalConfirmed": "Item retrieval confirmed!",
+    "chatRejectedShort": "Chat Rejected.",
+    "chatAccepted": "Chat request accepted! Redirecting to chat...",
+    "chatRejectedMsg": "Chat request rejected.",
+    "chatResponseError": "Error responding to chat request.",
+    "reporterResolvedClaim": "Claim marked as resolved. Waiting for claimer confirmation.",
+    "resolveClaimError": "Error resolving claim.",
+    "claimerConfirmedRetrieval": "Retrieval confirmed! Reporter awarded points.",
+    "confirmRetrievalError": "Error confirming retrieval.",
+    "itemDeleted": "Item deleted successfully.",
+    "deleteError": "Error deleting item.",
+    "findMatchesButton": "Find Matches",
+    "deleteButton": "Delete",
+    "confirmDeleteTitle": "Confirm Deletion",
+    "confirmDeleteText": "Are you sure you want to delete \"{{itemName}}\"? This action cannot be undone.",
+    "cancelButton": "Cancel",
+    "confirmButton": "Confirm"
   },
   "categories": {
     "Electronics": {
@@ -463,28 +495,48 @@
     }
   },
   "matchesPage": {
-    "title": "Potential Matches Found!",
+    "title": "AI Matched Found Items",
     "yourRequest": "Your Lost Item Request:",
-    "aiResults": "Here's what our AI found:",
-    "noMatches": "No potential matches found at this time.",
-    "noMatchesInfo": "We'll keep searching and notify you if a new item is reported that matches your description. You can also check with the faculty coordinator's office.",
-    "similarity": "Similarity:",
-    "claimButton": "Claim This Item",
-    "selfMatchWarningTitle": "Potential Misuse Detected",
-    "selfMatchWarningText": "Our system found a match that was also reported by your account. Please note that reporting and requesting the same item is considered a misuse of this application."
+    "aiResults": "AI-Powered Matching Results:",
+    "claimButton": "Request to Chat & Claim",
+    "selfMatchWarningTitle": "Self-Match Detected!",
+    "selfMatchWarningText": "It looks like one of the 'Found' items listed below might be an item you reported as 'Lost'. Please verify carefully!",
+    "noMatches": "No immediate AI matches found.",
+    "noMatchesInfo": "Keep an eye on 'My Queries' page, as new items are reported daily!",
+    "loadingMatches": "Searching for matches with AI...",
+    "fetchError": "Failed to load matches."
   },
   "matchesRedirectPage": {
     "noRequestsTitle": "No Active Requests",
     "noRequestsInfo": "You have not submitted any lost item requests. Please go to the 'Request Item' page to create one, and then you can see potential matches here."
   },
   "claimModal": {
-    "title": "Submit a Claim",
-    "subtitle": "To help the owner verify your claim, please provide proof of ownership.",
-    "proofLabel": "Proof of Ownership",
-    "proofPlaceholder": "e.g., Describe a unique scratch, the lock screen wallpaper, a specific file on the device, or the last few contacts you called...",
-    "submitButton": "Submit Claim",
-    "cancelButton": "Cancel",
-    "successMessage": "Claim submitted successfully! The item reporter has been notified.",
-    "errorMessage": "Failed to submit claim. You may have already claimed this item."
+    "title": "Item Claim Request",
+    "claimSentSuccess": "Claim request sent successfully! You can manage it in 'My Queries'.",
+    "claimSentError": "Failed to send claim request."
+  },
+  "footer": {
+    "copyright": "© 2025 TraceIt. All Rights Reserved."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "q": "How does the AI matching work?",
+        "a": "Our system converts your item description into a special numeric code (a vector). It then compares this code to all items in the database to find the ones with the most similar meaning, not just keywords."
+      },
+      {
+        "q": "Is my personal information safe?",
+        "a": "Yes. We only share necessary contact information after a claim has been made and a chat is initiated. Sensitive data like your Aadhaar number is encrypted and requires password verification to view or edit."
+      },
+      {
+        "q": "What happens after I claim an item?",
+        "a": "The person who reported the item is notified. They can then accept your request to chat. In the chat, you can provide proof of ownership. Once the reporter is satisfied, they will mark the item as resolved."
+      },
+      {
+        "q": "How do I earn service points?",
+        "a": "You earn 100 service points for every found item you report that is successfully returned to its owner through the claim process on our platform."
+      }
+    ]
   }
 }

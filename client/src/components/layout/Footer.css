@@ -1,0 +1,18 @@
+/* client/src/components/layout/Footer.css */
+.site-footer {
+    background-color: var(--header-background);
+    color: var(--header-text);
+    padding: 1.5rem 2rem; /* Added horizontal padding */
+    margin-top: auto; /* Pushes footer to the bottom in flex container */
+    
+    /* Center content using flexbox */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.site-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}

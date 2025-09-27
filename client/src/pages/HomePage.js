@@ -2,12 +2,19 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
-import Logo from '../assets/logo.png'; // Make sure your logo is here
+import LogoLight from '../assets/logo.png'; // Your existing logo for light mode
+import LogoDark from '../assets/logo-dark.png'; // <--- NEW: Your logo for dark mode
 import './HomePage.css';
+import { ThemeContext } from '../context/ThemeContext'; 
+import FAQ from '../components/home/FAQ';
 
 const HomePage = () => {
     const { user, isAuthenticated, loading: authLoading } = useContext(AuthContext);
     const { t } = useTranslation();
+    const { theme } = useContext(ThemeContext); // <--- NEW: Get current theme
+
+    // Determine which logo to show based on the theme
+    const currentLogo = theme === 'dark' ? LogoDark : LogoLight;
 
     const WelcomeContent = () => {
         if (authLoading) {
@@ -31,7 +38,7 @@ const HomePage = () => {
             <header className="hero-section">
                 <WelcomeContent />
                 <div className="hero-logo-container">
-                    <img src={Logo} alt="TraceIt Logo" className="hero-logo" />
+                    <img src={currentLogo} alt="TraceIt Logo" className="hero-logo" /> {/* USE currentLogo HERE */}
                 </div>
             </header>
 
@@ -57,6 +64,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
+            <FAQ />
         </div>
     );
 };

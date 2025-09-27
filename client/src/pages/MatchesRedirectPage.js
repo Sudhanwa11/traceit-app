@@ -1,5 +1,4 @@
-// client/src/pages/MatchesRedirectPage.js
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
@@ -9,57 +8,55 @@ const MatchesRedirectPage = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { isAuthenticated, loading: authLoading } = useContext(AuthContext);
-    const [message, setMessage] = useState(null);
-    const [loading, setLoading] = useState(true);
+    
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
-        if (!authLoading && !isAuthenticated) {
-            navigate('/login');
-        } else if (isAuthenticated) {
-            const findLatestRequest = async () => {
-                try {
-                    const allItems = await itemService.getMyItems();
-                    const lostItems = allItems.filter(item => item.status === 'Lost');
-
-                    if (lostItems.length === 1) {
-                        // If there's exactly one lost item, go to its matches
-                        navigate(`/matches/${lostItems[0]._id}`);
-                    } else if (lostItems.length > 1) {
-                        // If multiple, go to the query page for the user to choose
-                        navigate('/query');
-                    } else {
-                        // If none, show the message
-                        setMessage({
-                            title: t('matchesRedirectPage.noRequestsTitle'),
-                            info: t('matchesRedirectPage.noRequestsInfo'),
-                        });
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch user's items:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-            findLatestRequest();
+        // First, wait for the authentication check to be fully complete.
+        if (authLoading) {
+            return; // Do nothing and wait for the next render.
         }
+
+        // Once the check is done, we can safely see if the user is logged in.
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
+
+        // If we get here, the user is authenticated. Now we can fetch their items.
+        const findLostItemRequests = async () => {
+            try {
+                const allItems = await itemService.getMyItems();
+                const lostItems = allItems.filter(item => item.status === 'Lost' && !item.isRetrieved);
+
+                if (lostItems.length === 1) {
+                    // Scenario 1: Exactly one lost item. Redirect to its matches.
+                    navigate(`/matches/${lostItems[0]._id}`);
+                } else {
+                    // Scenario 2: 0 or multiple lost items. Redirect to the query page.
+                    navigate('/query');
+                }
+            } catch (error) {
+                console.error("Failed to fetch items for redirect:", error);
+                // If there's an error, display a message
+                setMessage('Could not fetch your item requests. Please try again from the My Queries page.');
+            }
+        };
+
+        findLostItemRequests();
+        
     }, [isAuthenticated, authLoading, navigate, t]);
 
-    if (loading || authLoading) {
-        return <div className="loader">Checking for active requests...</div>;
-    }
-
-    if (message) {
-        return (
-            <div className="empty-message-container">
-                <div className="empty-message">
-                    <h2>{message.title}</h2>
-                    <p>{message.info}</p>
-                </div>
-            </div>
-        );
-    }
-
-    return null; // Render nothing while redirecting
+    // Show a loading indicator or an error message
+    return (
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+            {message ? (
+                <div className="error-message">{message}</div>
+            ) : (
+                <div className="loader">Checking for active requests...</div>
+            )}
+        </div>
+    );
 };
 
 export default MatchesRedirectPage;

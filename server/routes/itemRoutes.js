@@ -9,7 +9,8 @@ const {
     getMyItems,
     getItemById,
     getMyRetrievedItems,
-    findSemanticMatches 
+    findSemanticMatches,
+    deleteItem 
 } = require('../controllers/itemController');
 
 const upload = require('../middleware/upload');
@@ -46,7 +47,8 @@ router.get('/my-retrieved', authMiddleware, getMyRetrievedItems);
 // @route   GET /api/items/matches/:itemId
 // @desc    Find semantic matches for a lost item using its ID
 // @access  Private (requires token)
-router.get('/matches/:itemId', authMiddleware, findSemanticMatches);
+router.get('/matches/:id', authMiddleware, findSemanticMatches);
 
+router.delete('/:id', authMiddleware, deleteItem);
 
 module.exports = router;

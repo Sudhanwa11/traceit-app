@@ -233,3 +233,21 @@ input:checked + .slider:before {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* ADD THESE STYLES TO SettingsPage.css */
+
+.dialog-content {
+    text-align: center;
+}
+.dialog-content p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Fix for congested buttons in modals */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end; /* Pushes buttons to the right */
+    gap: 1rem; /* Adds space between buttons */
+    margin-top: 1.5rem;
+}
