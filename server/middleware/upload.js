@@ -1,23 +1,18 @@
 // server/middleware/upload.js
 const multer = require('multer');
-const { GridFsStorage } = require('multer-gridfs-storage');
-const path = require('path');
-require('dotenv').config();
 
-const storage = new GridFsStorage({
-    url: process.env.MONGO_URI,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            const filename = `media-${Date.now()}${path.extname(file.originalname)}`;
-            const fileInfo = {
-                filename: filename,
-                bucketName: 'uploads' // Collection name in MongoDB
-            };
-            resolve(fileInfo);
-        });
-    }
+const ACCEPTED = new Set([
+  'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+  'video/mp4', 'video/webm', 'video/quicktime',
+]);
+
+const upload = multer({
+  storage: multer.memoryStorage(),               // we'll stream buffers to GridFS
+  limits: { files: 5, fileSize: 10 * 1024 * 1024 }, // 10MB each, adjust as needed
+  fileFilter: (_req, file, cb) => {
+    if (ACCEPTED.has(file.mimetype)) return cb(null, true);
+    cb(new Error(`Unsupported file type: ${file.mimetype}`));
+  },
 });
-
-const upload = multer({ storage });
 
 module.exports = upload;

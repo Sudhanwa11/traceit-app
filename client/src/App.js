@@ -23,6 +23,7 @@ import MatchesPage from './pages/MatchesPage';
 import MatchesRedirectPage from './pages/MatchesRedirectPage';
 import ChatPage from './pages/ChatPage';
 import Footer from './components/layout/Footer';
+import HelpPage from './pages/HelpPage';
 
 import './App.css';
 import { useTranslation } from 'react-i18next';
@@ -90,6 +91,7 @@ const AppWrapper = () => {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/chat/:claimId" element={<ChatPage />} />
+            <Route path="/help" element={<HelpPage />} />
           </Routes>
         </main>
         <Footer />

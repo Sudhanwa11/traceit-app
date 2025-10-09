@@ -1,0 +1,72 @@
+.help-page-container {
+  max-width: 980px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.help-page-container h2 {
+  text-align: center;
+  color: var(--heading-color);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.help-section {
+  margin-bottom: 2.5rem;
+}
+
+.help-section h3 {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.qa-block + .qa-block {
+  margin-top: 1.25rem;
+}
+
+.qa-block h4 {
+  margin: 0 0 0.35rem 0;
+  color: var(--heading-color);
+  font-weight: 700;
+}
+
+.help-section p {
+  line-height: 1.75;
+  margin: 0.25rem 0 0.6rem 0;
+  color: var(--text-color);
+}
+
+/* Lists */
+.bullets {
+  margin: 0.15rem 0 0.85rem 1.2rem;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.status-list {
+  margin: 0.25rem 0 0.85rem 1.2rem;
+  padding: 0;
+  line-height: 1.7;
+}
+
+.steps {
+  margin: 0.25rem 0 0.85rem 1.2rem;
+  padding-left: 1.2rem;
+  line-height: 1.75;
+}
+
+/* Tips */
+.tip {
+  margin-top: 0.6rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 105, 135, 0.09);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}

@@ -1,24 +1,29 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../context/ThemeContext';
 import { AuthContext } from '../context/AuthContext';
 import Modal from '../components/common/Modal';
 import authService from '../services/authService';
+import feedbackService from '../services/feedbackService'; // Import the new service
 import './SettingsPage.css';
 
 const SettingsPage = () => {
     const { t, i18n } = useTranslation();
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const { logout } = useContext(AuthContext);
+    const { logout, user } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    // State for different modals
+    // State for modals
     const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
     const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
     const [dialog, setDialog] = useState({ isOpen: false, message: '' });
 
-    // State for form data
+    // State for forms
     const [passwordData, setPasswordData] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
     const [deletePassword, setDeletePassword] = useState('');
+    const [feedbackData, setFeedbackData] = useState({ name: '', email: '', message: '' });
 
     const handlePasswordFormChange = (e) => {
         setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
@@ -36,7 +41,7 @@ const SettingsPage = () => {
             setTimeout(() => {
                 setDialog({ isOpen: false, message: '' });
                 logout();
-            }, 2000);
+            }, 3000);
         } catch (err) {
             setDialog({ isOpen: true, message: err.response.data.msg });
         }
@@ -51,9 +56,28 @@ const SettingsPage = () => {
             setTimeout(() => {
                 setDialog({ isOpen: false, message: '' });
                 logout();
-            }, 2000);
+            }, 3000);
         } catch (err) {
             setDialog({ isOpen: true, message: err.response.data.msg });
+        }
+    };
+    
+    // Pre-fill feedback form when modal opens
+    const handleOpenFeedbackModal = () => {
+        if (user) {
+            setFeedbackData({ name: user.name, email: user.email, message: '' });
+        }
+        setIsFeedbackOpen(true);
+    };
+
+    const handleFeedbackSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await feedbackService.submitFeedback(feedbackData);
+            setIsFeedbackOpen(false);
+            setDialog({ isOpen: true, message: res.msg });
+        } catch (err) {
+            setDialog({ isOpen: true, message: 'Failed to submit feedback.' });
         }
     };
 
@@ -65,7 +89,6 @@ const SettingsPage = () => {
         <div className="settings-container">
             <h2>{t('settings.title')}</h2>
 
-            {/* Language and Appearance Cards remain the same */}
             <div className="settings-card">
                 <h3>{t('settings.languageTitle')}</h3>
                 <p>{t('settings.languageDesc')}</p>
@@ -74,6 +97,7 @@ const SettingsPage = () => {
                     <button className={`lang-btn ${i18n.language === 'hi' ? 'active' : ''}`} onClick={() => changeLanguage('hi')}>हिन्दी (Hindi)</button>
                 </div>
             </div>
+
             <div className="settings-card">
                 <h3>{t('settings.darkModeTitle')}</h3>
                 <p>{t('settings.darkModeDesc')}</p>
@@ -84,23 +108,19 @@ const SettingsPage = () => {
                 </div>
             </div>
 
-            {/* Account Management Card */}
             <div className="settings-card">
                 <h3>{t('settings.accountTitle')}</h3>
                 <button className="settings-btn" onClick={() => setIsChangePasswordOpen(true)}>{t('settings.changePassword')}</button>
                 <button className="settings-btn btn-danger" onClick={() => setIsDeleteAccountOpen(true)}>{t('settings.deleteAccount')}</button>
             </div>
             
-            {/* Support Card remains the same */}
             <div className="settings-card">
                 <h3>{t('settings.helpTitle')}</h3>
-                <button className="settings-btn">{t('settings.help')}</button>
-                <button className="settings-btn">{t('settings.feedback')}</button>
+                <button className="settings-btn" onClick={() => navigate('/help')}>{t('settings.help')}</button>
+                <button className="settings-btn" onClick={handleOpenFeedbackModal}>{t('settings.feedback')}</button>
             </div>
 
             {/* --- MODALS --- */}
-
-            {/* Change Password Modal */}
             <Modal isOpen={isChangePasswordOpen} onClose={() => setIsChangePasswordOpen(false)}>
                 <form onSubmit={handleChangePasswordSubmit} className="modal-form">
                     <h2>{t('settings.changePassword')}</h2>
@@ -123,7 +143,6 @@ const SettingsPage = () => {
                 </form>
             </Modal>
 
-            {/* Delete Account Modal */}
             <Modal isOpen={isDeleteAccountOpen} onClose={() => setIsDeleteAccountOpen(false)}>
                 <form onSubmit={handleDeleteAccountSubmit} className="modal-form">
                     <h2>Delete Account</h2>
@@ -139,7 +158,26 @@ const SettingsPage = () => {
                 </form>
             </Modal>
 
-            {/* Generic Dialog for Success/Error Messages */}
+            <Modal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)}>
+                <form onSubmit={handleFeedbackSubmit} className="modal-form">
+                    <h2>{t('feedbackModal.title')}</h2>
+                    <div className="form-group">
+                        <label>{t('feedbackModal.yourMessage')}</label>
+                        <textarea
+                            value={feedbackData.message}
+                            onChange={(e) => setFeedbackData({ ...feedbackData, message: e.target.value })}
+                            rows="6"
+                            placeholder={t('feedbackModal.placeholder')}
+                            required
+                        ></textarea>
+                    </div>
+                    <div className="modal-actions">
+                        <button type="button" className="btn-secondary" onClick={() => setIsFeedbackOpen(false)}>{t('feedbackModal.cancelButton')}</button>
+                        <button type="submit" className="btn-primary">{t('feedbackModal.submitButton')}</button>
+                    </div>
+                </form>
+            </Modal>
+
             <Modal isOpen={dialog.isOpen} onClose={() => setDialog({ isOpen: false, message: '' })}>
                 <div className="dialog-content">
                     <p>{dialog.message}</p>

@@ -1,149 +1,157 @@
-/* client/src/pages/RewardsPage.css */
-
-.rewards-page-container {
-    display: flex;
-    gap: 2rem;
-    padding: 2rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fadeIn 0.5s ease-in-out;
+/* -------- Page wrapper keeps footer at bottom -------- */
+.rewards-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* -------- Layout: balanced 2-column grid -------- */
+.rewards-page-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* main + sidebar width */
+  gap: 3rem;
+  padding: 3rem 2rem;
+  max-width: 1500px;
+  margin: 0 auto;
+  align-items: start;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Shared “card” feel for both panels */
+.retrieved-items-list,
+.rewards-sidebar {
+  background: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px var(--shadow-color);
+  padding: 1.75rem 1.5rem;
+}
+
+/* Main card */
 .retrieved-items-list {
-    flex: 2;
-    background: var(--card-background);
-    color: var(--text-color);
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px var(--shadow-color);
-    border: 1px solid var(--border-color);
+  min-height: 420px;                 /* gives visual body */
 }
 
 .retrieved-items-list h2 {
-    margin-top: 0;
-    color: var(--heading-color);
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+  margin: 0 0 1rem;
+  color: var(--heading-color);
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .retrieved-items-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .retrieved-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0.25rem;
+  border-bottom: 1px solid var(--border-color);
 }
-
-.retrieved-item:last-child {
-    border-bottom: none;
-}
+.retrieved-item:last-child { border-bottom: 0; }
 
 .item-name {
-    font-weight: bold;
+  font-weight: 600;
+  letter-spacing: .2px;
 }
 
+/* Pill badge looks subtle and modern */
 .item-points {
-    background-color: #d4edda;
-    color: #155724;
-    font-weight: bold;
-    padding: 0.3rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.9rem;
+  background: linear-gradient(90deg, #d9f3e2, #eaf9ef);
+  color: #1b6c3a;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(27,108,58,.15);
 }
 
+/* Sidebar card */
 .rewards-sidebar {
-    flex: 1;
-    background: var(--card-background);
-    color: var(--text-color);
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px var(--shadow-color);
-    border: 1px solid var(--border-color);
-    align-self: flex-start;
+  position: sticky;                  /* keeps it in view */
+  top: var(--navbar-height, 84px);   /* adjust if your navbar height differs */
+  min-width: 0;
 }
 
 .rewards-sidebar h3 {
-    margin-top: 0;
-    text-align: center;
-    color: var(--heading-color);
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+  margin: 0 0 1rem;
+  text-align: center;
+  color: var(--heading-color);
+  font-size: 1.3rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.75rem;
 }
 
 .points-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
+  display: grid;
+  justify-items: center;
+  gap: .25rem;
+  margin-bottom: 1.5rem;
 }
+.points-label { font-size: 1rem; opacity: .8; }
+.points-total { font-size: 3.25rem; font-weight: 800; color: var(--primary-color); }
 
-.points-label {
-    font-size: 1.1rem;
-    opacity: 0.8;
-}
-
-.points-total {
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.reward-goal .goal-title {
-    font-weight: bold;
-    margin-bottom: 0.25rem;
-}
-
-.reward-goal .goal-description {
-    opacity: 0.8;
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
+.reward-goal .goal-title { font-weight: 700; margin-bottom: .25rem; }
+.reward-goal .goal-description { opacity: .8; margin: 0 0 1rem; }
 
 .no-rewards-message {
-    margin-top: 2rem;
-    text-align: center;
-    background-color: var(--background-color);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+  margin-top: 1.25rem;
+  text-align: center;
+  background-color: var(--background-color);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
 }
 
-.claim-section {
-    margin-top: 2rem;
-    text-align: center;
-}
-
+/* CTA button */
+.claim-section { margin-top: 1.5rem; text-align: center; }
 .claim-reward-btn {
-    background: linear-gradient(90deg, #F6E05E, #F687B3);
-    color: var(--primary-text);
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(90deg, #F6E05E, #F687B3);
+  color: var(--primary-text);
+  border: none;
+  padding: 0.85rem 1.2rem;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-
 .claim-reward-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
 }
 
 .claim-success-message {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 1rem;
-    border-radius: 8px;
-    font-weight: bold;
+  background-color: #dff7e7;
+  color: #13552d;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  border: 1px solid rgba(19,85,45,.15);
 }
+
+/* -------- Responsive: stack neatly on mobile -------- */
+@media (max-width: 980px) {
+  .rewards-page-container {
+    grid-template-columns: 1fr;  /* stack */
+  }
+  .rewards-sidebar {
+    position: static;            /* disable sticky on small screens */
+    order: 2;
+  }
+  .retrieved-items-list { order: 1; }
+}
+
+/* Optional tiny fade-in from your existing CSS */
+@keyframes fadeIn { from {opacity:0; transform: translateY(8px)} to {opacity:1; transform:none} }

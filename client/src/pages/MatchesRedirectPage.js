@@ -8,52 +8,47 @@ const MatchesRedirectPage = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { isAuthenticated, loading: authLoading } = useContext(AuthContext);
-    
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        // First, wait for the authentication check to be fully complete.
-        if (authLoading) {
-            return; // Do nothing and wait for the next render.
-        }
+        if (authLoading) return; // wait until auth check is done
 
-        // Once the check is done, we can safely see if the user is logged in.
         if (!isAuthenticated) {
             navigate('/login');
             return;
         }
 
-        // If we get here, the user is authenticated. Now we can fetch their items.
         const findLostItemRequests = async () => {
             try {
                 const allItems = await itemService.getMyItems();
-                const lostItems = allItems.filter(item => item.status === 'Lost' && !item.isRetrieved);
+                const lostItems = allItems.filter(
+                    item => item.status === 'Lost' && !item.isRetrieved
+                );
 
                 if (lostItems.length === 1) {
-                    // Scenario 1: Exactly one lost item. Redirect to its matches.
+                    // ✅ Exactly one lost item → go directly to its matches page
                     navigate(`/matches/${lostItems[0]._id}`);
                 } else {
-                    // Scenario 2: 0 or multiple lost items. Redirect to the query page.
-                    navigate('/query');
+                    // ✅ 0 or multiple lost items → stay on the general matches page
+                    navigate('/matches/all');
                 }
             } catch (error) {
                 console.error("Failed to fetch items for redirect:", error);
-                // If there's an error, display a message
-                setMessage('Could not fetch your item requests. Please try again from the My Queries page.');
+                setMessage('Could not fetch your item requests. Please try again.');
+                // fallback to general matches page
+                navigate('/matches/all');
             }
         };
 
         findLostItemRequests();
-        
     }, [isAuthenticated, authLoading, navigate, t]);
 
-    // Show a loading indicator or an error message
     return (
         <div style={{ textAlign: 'center', padding: '2rem' }}>
             {message ? (
                 <div className="error-message">{message}</div>
             ) : (
-                <div className="loader">Checking for active requests...</div>
+                <div className="loader">Checking your requests...</div>
             )}
         </div>
     );

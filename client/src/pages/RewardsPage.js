@@ -54,47 +54,49 @@ const RewardsPage = () => {
     const canClaimReward = user.servicePoints >= REWARD_GOAL;
 
     return (
-        <div className="rewards-page-container">
-            <div className="retrieved-items-list">
-                <h2>{t('rewardsPage.title')}</h2>
-                {retrievedItems.length > 0 ? (
+        <div className="rewards-page-wrapper">
+            <div className="rewards-page-container">
+                <div className="retrieved-items-list">
+                    <h2>{t('rewardsPage.title')}</h2>
+                    {retrievedItems.length > 0 ? (
                     <ul>
                         {retrievedItems.map(item => (
-                            <li key={item._id} className="retrieved-item">
-                                <span className="item-name">{item.itemName}</span>
-                                <span className="item-points">+100 {t('rewardsPage.pointsSuffix')}</span>
-                            </li>
+                        <li key={item._id} className="retrieved-item">
+                            <span className="item-name">{item.itemName}</span>
+                            <span className="item-points">+100 {t('rewardsPage.pointsSuffix')}</span>
+                        </li>
                         ))}
                     </ul>
-                ) : (
+                    ) : (
                     <p>{t('rewardsPage.noRetrievals')}</p>
-                )}
-            </div>
+                    )}
+                </div>
 
-            <div className="rewards-sidebar">
-                <h3>{t('rewardsPage.sidebarTitle')}</h3>
-                <div className="points-summary">
-                    <span className="points-label">{t('rewardsPage.totalPoints')}</span>
-                    <span className="points-total">{user.servicePoints}</span>
-                </div>
-                <div className="reward-goal">
-                    <p className="goal-title">{t('rewardsPage.nextReward')}</p>
-                    <p className="goal-description">{t('rewardsPage.rewardGoal')}</p>
-                    <ProgressBar value={user.servicePoints} max={REWARD_GOAL} />
-                </div>
-                
-                <div className="claim-section">
-                    {claimMessage ? (
-                        <p className="claim-success-message">{claimMessage}</p>
-                    ) : canClaimReward ? (
-                        <button className="claim-reward-btn" onClick={handleClaimReward}>
+                <div className="rewards-sidebar">
+                    <h3>{t('rewardsPage.sidebarTitle')}</h3>
+                    <div className="points-summary">
+                        <span className="points-label">{t('rewardsPage.totalPoints')}</span>
+                        <span className="points-total">{user.servicePoints}</span>
+                    </div>
+                    <div className="reward-goal">
+                        <p className="goal-title">{t('rewardsPage.nextReward')}</p>
+                        <p className="goal-description">{t('rewardsPage.rewardGoal')}</p>
+                        <ProgressBar value={user.servicePoints} max={REWARD_GOAL} />
+                    </div>
+
+                    <div className="claim-section">
+                        {claimMessage ? (
+                            <p className="claim-success-message">{claimMessage}</p>
+                        ) : canClaimReward ? (
+                            <button className="claim-reward-btn" onClick={handleClaimReward}>
                             🎉 {t('rewardsPage.claimButton')}
-                        </button>
-                    ) : user.servicePoints === 0 ? (
-                        <div className="no-rewards-message">
+                            </button>
+                        ) : user.servicePoints === 0 ? (
+                            <div className="no-rewards-message">
                             <p>{t('rewardsPage.noRewardsYet')}</p>
-                        </div>
-                    ) : null}
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </div>

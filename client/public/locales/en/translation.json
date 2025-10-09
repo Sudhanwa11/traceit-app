@@ -504,7 +504,10 @@
     "noMatches": "No immediate AI matches found.",
     "noMatchesInfo": "Keep an eye on 'My Queries' page, as new items are reported daily!",
     "loadingMatches": "Searching for matches with AI...",
-    "fetchError": "Failed to load matches."
+    "fetchError": "Failed to load matches.",
+    "refreshNow": "Search matches now",
+    "refreshing": "Searching…",
+    "refreshed": "Results updated."
   },
   "matchesRedirectPage": {
     "noRequestsTitle": "No Active Requests",
@@ -538,5 +541,31 @@
         "a": "You earn 100 service points for every found item you report that is successfully returned to its owner through the claim process on our platform."
       }
     ]
+  },
+  "helpPage": {
+    "title": "Help Center",
+    "gettingStartedTitle": "Getting Started",
+    "q1": "How do I register?",
+    "a1": "Click the 'Register' button on the navbar and fill in your college details. You will need a valid college email and roll number to sign up.",
+    "q2": "How do I report an item I found?",
+    "a2": "Navigate to the 'Report Item' page from the navbar. Fill in all the details as accurately as possible, especially the category and a good description. Uploading a clear photo is highly recommended as it greatly increases the chances of a successful return.",
+    "claimsTitle": "Claims & Chat",
+    "q3": "How do I claim an item?",
+    "a3": "After you submit a 'Request Item' form for something you lost, you will be taken to a page with potential matches found by our AI. On this page, click the 'Request to Chat & Claim' button on an item you believe is yours. This will notify the person who found it.",
+    "q4": "Where can I manage my claims?",
+    "a4": "The 'My Queries' page is your central dashboard. It has separate sections for claims you've made on other people's items and claims others have made on items you reported. You can manage all your claim-related activities there.",
+    "q5": "What is the claim process?",
+    "a5": "Once you claim an item, the reporter is notified. They must accept your request to chat. In the private chat, you can provide proof of ownership (like describing a unique scratch, the lock screen wallpaper, etc.). If the reporter is satisfied, they will mark the claim as resolved. You must then confirm you have received the item to complete the process."
+  },
+  "feedbackModal": {
+    "title": "Submit Feedback",
+    "yourMessage": "Your Message",
+    "placeholder": "Tell us what you think or how we can improve...",
+    "submitButton": "Submit",
+    "cancelButton": "Cancel",
+    "successMessage": "Thank you for your feedback!",
+    "nameLabel": "Your Name",
+    "emailLabel": "Your Email",
+    "branchLabel": "Your Branch / Department"
   }
 }

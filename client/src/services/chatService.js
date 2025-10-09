@@ -1,21 +1,36 @@
 // client/src/services/chatService.js
-import API from '../utils/api';
+import api from '../utils/api'; // your axios instance with auth header
 
-// Get (or create) a conversation and its messages for a specific claim
 const getConversationByClaim = async (claimId) => {
-    const response = await API.get(`/api/chat/conversation/${claimId}`);
-    return response.data;
+  const { data } = await api.get(`/api/chat/conversation/${claimId}`);
+  return data;
 };
 
-// Post a new message to a conversation
-const postMessage = async (messageData) => {
-    const response = await API.post('/api/chat/messages', messageData);
-    return response.data;
+const postMessage = async ({ conversationId, text }) => {
+  const { data } = await api.post('/api/chat/message', { conversationId, text });
+  return data;
+};
+
+// NEW: multipart version for images
+const postMessageWithFiles = async ({ conversationId, text, files }) => {
+  const form = new FormData();
+  form.append('conversationId', conversationId);
+  if (text) form.append('text', text);
+
+  if (files && files.length) {
+    Array.from(files).forEach((f) => form.append('files', f));
+  }
+
+  const { data } = await api.post('/api/chat/message', form, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+  return data;
 };
 
 const chatService = {
-    getConversationByClaim,
-    postMessage,
+  getConversationByClaim,
+  postMessage,
+  postMessageWithFiles
 };
 
 export default chatService;

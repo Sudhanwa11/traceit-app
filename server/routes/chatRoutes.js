@@ -1,15 +1,14 @@
 // server/routes/chatRoutes.js
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../middleware/authMiddleware');
+const auth = require('../middleware/authMiddleware');
+const uploadChat = require('../middleware/chatUpload');
 const { getConversationByClaim, postMessage } = require('../controllers/chatController');
 
-// @route   GET /api/chat/conversation/:claimId
-// @desc    Get or create a conversation for a claim
-router.get('/conversation/:claimId', authMiddleware, getConversationByClaim);
+// unchanged
+router.get('/conversation/:claimId', auth, getConversationByClaim);
 
-// @route   POST /api/chat/messages
-// @desc    Post a new message to a conversation
-router.post('/messages', authMiddleware, postMessage);
+//accept multipart with images
+router.post('/message', auth, uploadChat, postMessage);
 
 module.exports = router;

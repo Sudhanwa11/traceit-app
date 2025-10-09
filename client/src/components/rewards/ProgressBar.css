@@ -1,27 +1,83 @@
-/* client/src/components/rewards/ProgressBar.css */
-.progress-bar-container {
-    height: 30px;
-    width: 100%;
-    background-color: #e0e0de;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+/* Container */
+.progressbar {
+  width: 100%;
 }
 
-.progress-bar-filler {
-    height: 100%;
-    background: linear-gradient(90deg, #f08080, #fbc4ab);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    transition: width 0.5s ease-in-out;
+/* Track */
+.progressbar__track {
+  position: relative;
+  width: 100%;
+  height: var(--pb-height, 18px);
+  border-radius: 9999px;
+  background: var(--pb-track, #e9ecef);
+  border: 1px solid var(--pb-border, rgba(0,0,0,0.12));
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
 }
 
-.progress-bar-label {
-    padding: 5px 10px;
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+/* Fill */
+.progressbar__fill {
+  position: relative;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--pb-fill-1, #f08080), var(--pb-fill-2, #fbc4ab));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+  transition: width .5s ease;
 }
+
+/* Label base */
+.progressbar__label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 0.85rem;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Inside the bar */
+.progressbar__label--inside {
+  right: 8px;
+  color: var(--pb-text-in, #111827);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+/* Outside (to the right) when fill is too small */
+.progressbar__label--outside {
+  left: calc(100% + 10px);
+  color: var(--pb-text-out, #374151);
+}
+
+/* Light theme polish */
+[data-theme='light'] .progressbar__track {
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.05);
+}
+
+[data-theme='light'] .progressbar__label--inside {
+  color: #1f2937;
+}
+
+[data-theme='light'] .progressbar__label--outside {
+  color: #374151;
+}
+
+/* Dark theme polish */
+[data-theme='dark'] .progressbar__track {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.25);
+}
+
+[data-theme='dark'] .progressbar__label--inside {
+  color: #0b1020; /* ensures good contrast over bright fill */
+}
+
+[data-theme='dark'] .progressbar__label--outside {
+  color: rgba(255,255,255,0.85);
+}
+
+/* Optional: tweak gradient via CSS vars from parent if desired
+   .progressbar { --pb-fill-1: #FF7AA2; --pb-fill-2: #FFB3CC; } */

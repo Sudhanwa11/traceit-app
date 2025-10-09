@@ -1,20 +1,24 @@
-// client/src/api.js
 import axios from 'axios';
 
-// Create a new instance of axios
 const API = axios.create({
-    // Use the production URL if it exists, otherwise default to localhost for development
-    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000'
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+  // withCredentials: true, // uncomment if you use cookies/session auth
 });
 
-// This is an interceptor. It runs before every request.
-// It checks if a token exists in local storage and adds it to the headers.
-API.interceptors.request.use((req) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        req.headers['x-auth-token'] = token;
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers['x-auth-token'] = token;
+
+  // If sending FormData, let the browser set boundary and don't stringify
+  if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+    if (config.headers) {
+      delete config.headers['Content-Type'];
+      delete config.headers['content-type'];
     }
-    return req;
+    config.transformRequest = [(d) => d];
+  }
+
+  return config;
 });
 
 export default API;

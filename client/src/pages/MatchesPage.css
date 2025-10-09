@@ -1,145 +1,250 @@
 /* client/src/pages/MatchesPage.css */
+
+/* ===== Page shell ===== */
 .matches-page-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 1rem;
-    animation: fadeIn 0.5s ease-in-out;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .matches-page-container h2 {
-    text-align: center;
-    color: var(--heading-color);
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+  text-align: center;
+  color: var(--heading-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }
 
+/* ===== Original item card ===== */
 .original-item-section {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: var(--card-background);
-    padding: 2rem;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
 }
 
+/* Section titles */
 .original-item-section h3,
 .matches-section h3 {
-    color: var(--heading-color);
-    opacity: 0.9;
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  color: var(--heading-color);
+  opacity: 0.9;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  text-align: center;
 }
 
+/* Grid of match cards */
 .matches-section .items-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
+/* Optional divider flourish */
 .elegant-divider {
-    height: 2px;
-    width: 80px;
-    background: linear-gradient(to right, transparent, var(--primary-color), transparent);
-    margin: 3rem auto;
+  height: 2px;
+  width: 80px;
+  background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+  margin: 3rem auto;
 }
 
+/* Empty state */
 .empty-message {
-    width: 100%;
-    text-align: center;
-    color: var(--text-color);
-    opacity: 0.8;
-    padding: 2rem;
-    background: var(--card-background);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+  width: 100%;
+  text-align: center;
+  color: var(--text-color);
+  opacity: 0.9;
+  padding: 2rem;
+  background: var(--card-background);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-top: 8px; /* spacing from CTA */
 }
 
-/* Add these styles to the end of MatchesPage.css */
-
+/* Page-level messages */
 .page-message {
-    max-width: 800px;
-    margin: 0 auto 1.5rem auto;
-    text-align: center;
+  max-width: 800px;
+  margin: 0 auto 1.5rem auto;
+  text-align: center;
 }
 
-.claim-modal-content h2 {
-    color: var(--heading-color);
-    margin-top: 0;
-}
-
-.claim-modal-content p {
-    color: var(--text-color);
-    opacity: 0.8;
-    margin-bottom: 1.5rem;
-}
-
+/* ===== Modal bits (unchanged) ===== */
+.claim-modal-content h2 { color: var(--heading-color); margin-top: 0; }
+.claim-modal-content p { color: var(--text-color); opacity: 0.8; margin-bottom: 1.5rem; }
 .claim-modal-content .form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: inherit;
-    font-size: 1rem;
-    resize: vertical;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
 }
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; }
 .modal-actions .btn-primary, .modal-actions .btn-secondary {
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
+  padding: 0.6rem 1.2rem; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;
 }
+.modal-actions .btn-primary { background-color: var(--primary-color); color: var(--primary-text); }
+.modal-actions .btn-secondary { background-color: transparent; border: 2px solid var(--border-color); color: var(--text-color); }
 
-.modal-actions .btn-primary {
-    background-color: var(--primary-color);
-    color: var(--primary-text);
-}
-
-.modal-actions .btn-secondary {
-    background-color: transparent;
-    border: 2px solid var(--border-color);
-    color: var(--text-color);
-}
-
-/* ADD THESE STYLES TO MatchesPage.css */
-
+/* ===== Warning callout ===== */
 .warning-message {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.warning-message h3 { margin-top: 0; color: #856404; }
+[data-theme='dark'] .warning-message { background-color: #332701; color: #ffda6a; border-color: #856404; }
+[data-theme='dark'] .warning-message h3 { color: #ffda6a; }
+
+/* ===== AI results header + CTA layout ===== */
+.matches-header {
+  /* When matches exist: title left, button right */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.matches-title-center {
+  /* When no matches: centered title */
+  text-align: center;
+  color: var(--heading-color);
+  opacity: 0.95;
+  font-size: 1.5rem;
+  margin: 0 0 12px 0;
+}
+
+/* When no matches: center CTA above empty card */
+.matches-cta-full {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 12px;
+}
+.matches-cta-full .btn-match {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+/* ===== Compact neutral CTA button ===== */
+.btn-match {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, transform .05s ease, box-shadow .2s ease;
+}
+.btn-match:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.btn-match:active { transform: translateY(1px); }
+.btn-match:disabled { opacity: .6; cursor: not-allowed; }
+.btn-match:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+
+/* ===== Match card meta row (Similarity + action button) ===== */
+.match-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-top: 1rem;
+}
+
+.similarity-badge {
+  display: inline-block;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--card-background);
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: .9rem;
+  opacity: .95;
+}
+
+.match-action {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* Optional footer spacing inside card (tags/date area) */
+.item-card-footer {
+  margin-top: .75rem;
+}
+
+/* Long titles wrap nicely */
+.item-card h3, .item-card .title {
+  word-break: break-word;
+}
+
+/* ===== Light mode polish ===== */
+[data-theme='light'] .btn-match {
+  background: #ffffff;
+  color: #1f2937; /* slate-800-ish */
+  border-color: rgba(0,0,0,0.12);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+[data-theme='light'] .btn-match:hover {
+  background: #fafafa;
+  border-color: rgba(0,0,0,0.18);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+[data-theme='light'] .matches-title-center,
+[data-theme='light'] .matches-header h3 {
+  color: #2c3e50;
+  opacity: 0.98;
+}
+[data-theme='light'] .empty-message {
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.1);
+  color: #394a59;
+  opacity: 1;
+}
+[data-theme='light'] .elegant-divider {
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.18), transparent);
+}
+[data-theme='light'] .similarity-badge {
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.12);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .matches-page-container h2 { font-size: 2rem; }
+  .original-item-section, .empty-message { padding: 1.25rem; }
+  .matches-section .items-grid { gap: 1rem; }
+
+  .matches-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .matches-header h3 {
     text-align: center;
-}
-
-.warning-message h3 {
-    margin-top: 0;
-    color: #856404;
-}
-
-[data-theme='dark'] .warning-message {
-    background-color: #332701;
-    color: #ffda6a;
-    border-color: #856404;
-}
-
-[data-theme='dark'] .warning-message h3 {
-    color: #ffda6a;
+    margin-bottom: 6px;
+  }
+  .matches-header .btn-match {
+    align-self: center;
+  }
 }
