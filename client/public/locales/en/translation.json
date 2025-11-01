@@ -141,12 +141,35 @@
     "step1": "Report or Request",
     "step1Text": "Found something? Report it in seconds. Lost something? Post a request and let the community help you out.",
     "step2": "Smart Matching",
-    "step2Text": "Our AI-powered system analyzes descriptions, categories, and locations to help you find potential matches quickly.",
+    "step2Text": "Our AI-powered system analyzes descriptions, categories, locations, and photos to help you find potential matches quickly — even across English and Hindi.",
     "step3": "Connect & Retrieve",
-    "step3Text": "Once a match is found, you can securely contact the other person to arrange the retrieval of the item.",
+    "step3Text": "Once a match is found, you can chat securely to verify ownership and arrange the handover.",
+    "featuresTitle": "What Makes TraceIt Different",
+    "featureAI": "Bilingual AI Matching",
+    "featureAIText": "We use an offline multilingual transformer so descriptions in English and Hindi can match accurately (e.g., “wallet” ↔ “बटुआ”).",
+    "featureChat": "Safe Chat & Claims",
+    "featureChatText": "Claim an item, the reporter approves chat, and both parties verify details before meeting to retrieve the item.",
+    "featureRewards": "Rewards & Recognition",
+    "featureRewardsText": "Successful returns automatically award Service Points (e.g., +100 per retrieval) unlocking campus rewards.",
+    "featureRealtime": "Real-Time Updates",
+    "featureRealtimeText": "You’ll see new messages instantly and claim status changes reflected across Matches and My Queries.",
+    "flowTitle": "Claim & Retrieval Flow",
+    "flow1": "Claim",
+    "flow1Text": "The requester claims a found item from the Matches page.",
+    "flow2": "Approve Chat",
+    "flow2Text": "The reporter reviews and accepts/rejects the chat request.",
+    "flow3": "Verify",
+    "flow3Text": "Both users verify details (photo, description, unique marks) in chat.",
+    "flow4": "Resolve",
+    "flow4Text": "Reporter marks the claim resolved after handover; claimer confirms retrieval.",
+    "flow5": "Reward",
+    "flow5Text": "The system awards Service Points and removes the retrieved item from active feeds and Matches.",
+    "techTitle": "Privacy-First Technology",
+    "techText": "TraceIt runs bilingual text matching locally using Xenova’s multilingual transformer (no external calls for embeddings). Images are stored securely, and chat/notifications run over sockets. We use MongoDB with vector search where available, with a local cosine fallback to stay resilient.",
     "creatorTitle": "About the Creators",
-    "creatorText": "TraceIt was developed by a team of passionate students dedicated to enhancing campus life through innovative solutions. This application was brought to life through the collaborative effort and dedication of three passionate students: Sudhanwa, Aditya Jha, and Pawan Meena. Our diverse backgrounds in technology, design, and community service drive us to create tools that make a real difference. We believe in the power of collaboration and are committed to continuously improving TraceIt based on user feedback and evolving needs. Join us in making our campus a safer and more connected place! Feel free to reach out to us with any questions or suggestions."
+    "creatorText": "TraceIt was built to make campus life better through practical innovation. It is maintained with care and continuously improved based on real user feedback. The project was created by Sudhanwa, Aditya Jha, and Pawan Meena — students passionate about building useful campus tools."
   },
+
   "registerPage": {
     "title": "Create Your Account",
     "subtitle": "Join TraceIt to find and report lost items on campus",
@@ -176,13 +199,22 @@
   },
   "homePageBenefits": {
     "title": "Why Use TraceIt on Campus?",
-    "card1Title": "Quick & Easy Reporting",
-    "card1Text": "Found or lost an item? Post a report in under a minute with our simple, guided forms.",
-    "card2Title": "AI-Powered Matching",
-    "card2Text": "Our smart system uses semantic search to find the most relevant matches for your lost items, increasing your chances of recovery.",
-    "card3Title": "Community Driven",
-    "card3Text": "Earn service points and rewards by helping your fellow students. Be a campus hero!"
+    "quickTitle": "Quick & Easy Reporting",
+    "quickText": "Report found or lost items in under a minute with guided forms and photo uploads.",
+
+    "aiTitle": "AI-Powered, Multilingual Matching",
+    "aiText": "Semantic search matches your items by meaning (not just keywords) and works across English & Hindi.",
+
+    "privacyTitle": "Private & Secure Chat",
+    "privacyText": "Only names and departments are shared. Chat access is approved by the reporter before starting.",
+
+    "rewardsTitle": "Service Points & Rewards",
+    "rewardsText": "Reporters earn +100 points when a retrieval is confirmed. Track progress toward campus rewards.",
+
+    "liveTitle": "Live Updates & Cleaner Matches",
+    "liveText": "Matches refresh on demand and retrieved items auto-disappear, keeping results relevant."
   },
+
   "queryPage": {
     "title": "My Queries & Claims",
     "claimsReceivedTitle": "Claims on My Items",
@@ -526,36 +558,81 @@
     "items": [
       {
         "q": "How does the AI matching work?",
-        "a": "Our system converts your item description into a special numeric code (a vector). It then compares this code to all items in the database to find the ones with the most similar meaning, not just keywords."
+        "a": "Our system converts your item details (title, description, location, category, photo) into special numeric codes called embeddings. It compares them across all items in the database to find the most semantically similar matches, not just keyword matches. English and Hindi descriptions are supported equally."
       },
       {
         "q": "Is my personal information safe?",
-        "a": "Yes. We only share necessary contact information after a claim has been made and a chat is initiated. Sensitive data like your Aadhaar number is encrypted and requires password verification to view or edit."
+        "a": "Yes. Only your name, department, and item details are shared during claims. Contact details are never exposed publicly. Chat and embeddings run securely, and all sensitive data is stored with protection."
       },
       {
         "q": "What happens after I claim an item?",
-        "a": "The person who reported the item is notified. They can then accept your request to chat. In the chat, you can provide proof of ownership. Once the reporter is satisfied, they will mark the item as resolved."
+        "a": "When you claim a matched item, the reporter is notified. If they approve, a secure chat opens where you can verify ownership (for example, through unique marks). After successful handover, the reporter marks the item as resolved and you confirm retrieval. The item then disappears from the Matches section."
       },
       {
         "q": "How do I earn service points?",
-        "a": "You earn 100 service points for every found item you report that is successfully returned to its owner through the claim process on our platform."
+        "a": "When a reporter successfully returns a found item and the claimer confirms retrieval, the reporter automatically earns +100 Service Points. These points represent your helpfulness in the campus community."
+      },
+      {
+        "q": "What if I don’t see any matches?",
+        "a": "Try adding a clearer title, more detailed description, or uploading a photo. You can also refresh Matches manually using the 'Search matches now' button. New reports are continuously processed by the AI."
+      },
+      {
+        "q": "What if my chat request is rejected?",
+        "a": "If your chat request is rejected, it means the reporter believes the item doesn’t match your description. You can still claim or chat for other similar items."
+      },
+      {
+        "q": "Where should we meet for item handover?",
+        "a": "For safety, always meet in public campus areas like the library front desk or admin office. Verify ownership politely before handing over the item."
       }
     ]
   },
+
   "helpPage": {
     "title": "Help Center",
     "gettingStartedTitle": "Getting Started",
     "q1": "How do I register?",
     "a1": "Click the 'Register' button on the navbar and fill in your college details. You will need a valid college email and roll number to sign up.",
     "q2": "How do I report an item I found?",
-    "a2": "Navigate to the 'Report Item' page from the navbar. Fill in all the details as accurately as possible, especially the category and a good description. Uploading a clear photo is highly recommended as it greatly increases the chances of a successful return.",
+    "a2": "Navigate to the 'Report Item' page from the navbar. Fill in all details accurately—especially category, sub-category, location and a clear description. Upload a clear photo to improve matching and retrieval chances.",
+    "tipsPhoto": "Upload at least one clear photo showing unique marks",
+    "tipsTitle": "Use a precise title, e.g., “Black Leather Wallet”",
+    "tipsLocation": "Add where you found it and where it is now",
+    "matchingTitle": "Request & AI Matching",
+    "qRequest": "How do I request a lost item?",
+    "aRequest": "Open 'Request Item', describe what you lost, and submit. You’ll be taken to the Matches page where our AI suggests likely found items.",
+    "tipBilingual": "Bilingual matching: English/Hindi descriptions are matched using an offline multilingual model (e.g., “wallet” ↔ “बटुआ”).",
+    "qRefresh": "How do I refresh matches?",
+    "aRefresh": "Use the 'Search matches now' button to re-run AI matching. New reports appear as they are posted. Retrieved items are automatically removed from matches.",
     "claimsTitle": "Claims & Chat",
     "q3": "How do I claim an item?",
-    "a3": "After you submit a 'Request Item' form for something you lost, you will be taken to a page with potential matches found by our AI. On this page, click the 'Request to Chat & Claim' button on an item you believe is yours. This will notify the person who found it.",
+    "a3": "On the Matches page, click 'Request to Chat & Claim' on an item you believe is yours. The reporter receives a chat request and can approve or reject it.",
     "q4": "Where can I manage my claims?",
-    "a4": "The 'My Queries' page is your central dashboard. It has separate sections for claims you've made on other people's items and claims others have made on items you reported. You can manage all your claim-related activities there.",
-    "q5": "What is the claim process?",
-    "a5": "Once you claim an item, the reporter is notified. They must accept your request to chat. In the private chat, you can provide proof of ownership (like describing a unique scratch, the lock screen wallpaper, etc.). If the reporter is satisfied, they will mark the claim as resolved. You must then confirm you have received the item to complete the process."
+    "a4": "Use the 'My Queries' page. It shows claims others made on your items and claims you made on others' items, with current status and next actions.",
+    "statusPending": "Reporter needs to approve your chat request.",
+    "statusChat": "Both parties can exchange messages instantly.",
+    "statusResolved": "Reporter marked as returned; claimer must confirm retrieval.",
+    "statusConfirmed": "Process complete. Points awarded to reporter.",
+    "statusRejected": "Request was declined; you can claim a different item.",
+    "q5": "What is the full claim flow?",
+    "flow1": "Requester clicks Claim on a matched found item.",
+    "flow2": "Reporter approves chat; both verify ownership (unique marks, photos, etc.).",
+    "flow3": "They meet to hand over the item safely (ideally in a public campus spot).",
+    "flow4": "Reporter marks the claim as resolved; requester confirms retrieval.",
+    "flow5": "Reporter receives +100 Service Points; item disappears from active feeds and Matches.",
+    "rewardsTitle": "Rewards",
+    "qRewards": "How do rewards work?",
+    "aRewards": "When a found item is successfully returned and confirmed, the reporter is awarded Service Points automatically. Track your progress on the Rewards page.",
+    "troublesTitle": "Troubleshooting",
+    "qNoMatches": "I don’t see any matches",
+    "fix1": "Re-check your title, sub-category and description for clarity.",
+    "fix2": "Add a photo if possible; it helps reporters recognise your item.",
+    "fix3": "Click “Search matches now” to refresh—new posts appear frequently.",
+    "qChatDelay": "Chat messages aren’t appearing instantly",
+    "aChatDelay": "Check your internet connection. Chat runs in real-time via sockets; if idle, the client may reconnect when you next interact.",
+    "safetyTitle": "Privacy & Safety",
+    "qPrivacy": "How is my data handled?",
+    "aPrivacy": "Text matching runs locally using an offline multilingual model; photos and chat are stored securely. Only essential details are shared during the claim/chat process.",
+    "tipMeet": "For handovers, meet in public campus areas (e.g., library front desk) and verify identity politely."
   },
   "feedbackModal": {
     "title": "Submit Feedback",

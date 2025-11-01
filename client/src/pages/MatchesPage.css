@@ -148,7 +148,7 @@
   padding: 10px 16px;
   border-radius: 9999px;
   border: 1px solid var(--border-color);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(61, 60, 60, 0.05);
   color: var(--text-color);
   font-weight: 600;
   cursor: pointer;
@@ -201,13 +201,13 @@
 
 /* ===== Light mode polish ===== */
 [data-theme='light'] .btn-match {
-  background: #ffffff;
+  background: #f08080;
   color: #1f2937; /* slate-800-ish */
   border-color: rgba(0,0,0,0.12);
   box-shadow: 0 1px 2px rgba(0,0,0,0.06);
 }
 [data-theme='light'] .btn-match:hover {
-  background: #fafafa;
+  background: #f93e3e;
   border-color: rgba(0,0,0,0.18);
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }

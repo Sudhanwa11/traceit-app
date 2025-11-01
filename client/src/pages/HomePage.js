@@ -16,20 +16,21 @@ const HomePage = () => {
 
   const WelcomeContent = () => {
     if (authLoading) return <div className="loader" />;
+
     return isAuthenticated && user ? (
       <div className="welcome-text">
         <h2 className="title-animation">
-          {t('homePage.welcomeBack', 'Welcome back,')} {user.name}!
+          {t('homePage.welcomeBack')} {user.name}!
         </h2>
-        <p className="subtitle-animation">{t('homePage.whatToDo', 'What would you like to do today?')}</p>
+        <p className="subtitle-animation">{t('homePage.whatToDo')}</p>
       </div>
     ) : (
       <div className="welcome-text">
         <h2 className="title-animation">
-          {t('homePage.mainTitle', 'Lost & Found, made simple.')}
+          {t('homePage.mainTitle')}
         </h2>
         <p className="subtitle-animation">
-          {t('homePage.subtitle', 'The easiest way to report and find items on campus.')}
+          {t('homePage.subtitle')}
         </p>
       </div>
     );
@@ -48,61 +49,36 @@ const HomePage = () => {
 
       {/* --- Why TraceIt on Campus (5 reasons) --- */}
       <section className="why-traceit">
-        <h3>{t('homePageBenefits.title2', 'Why Use TraceIt on Campus?')}</h3>
+        <h3>{t('homePageBenefits.title')}</h3>
         <div className="reasons-grid">
           <div className="reason-card">
             <span className="reason-icon">⚡️</span>
-            <h4>{t('homePageBenefits.quickTitle', 'Quick & Easy Reporting')}</h4>
-            <p>
-              {t(
-                'homePageBenefits.quickText',
-                'Report found or lost items in under a minute with guided forms and photo uploads.'
-              )}
-            </p>
+            <h4>{t('homePageBenefits.quickTitle')}</h4>
+            <p>{t('homePageBenefits.quickText')}</p>
           </div>
 
           <div className="reason-card">
             <span className="reason-icon">🤖</span>
-            <h4>{t('homePageBenefits.aiTitle', 'AI-Powered, Multilingual Matching')}</h4>
-            <p>
-              {t(
-                'homePageBenefits.aiText',
-                'Semantic search matches your items by meaning (not just keywords) and works across English & Hindi.'
-              )}
-            </p>
+            <h4>{t('homePageBenefits.aiTitle')}</h4>
+            <p>{t('homePageBenefits.aiText')}</p>
           </div>
 
           <div className="reason-card">
             <span className="reason-icon">🔐</span>
-            <h4>{t('homePageBenefits.privacyTitle', 'Private & Secure Chat')}</h4>
-            <p>
-              {t(
-                'homePageBenefits.privacyText',
-                'Only names and departments are shared. Chat is approved by the reporter before starting.'
-              )}
-            </p>
+            <h4>{t('homePageBenefits.privacyTitle')}</h4>
+            <p>{t('homePageBenefits.privacyText')}</p>
           </div>
 
           <div className="reason-card">
             <span className="reason-icon">🏆</span>
-            <h4>{t('homePageBenefits.rewardsTitle', 'Service Points & Rewards')}</h4>
-            <p>
-              {t(
-                'homePageBenefits.rewardsText',
-                'Reporters earn +100 points when a retrieval is confirmed. Track progress toward campus rewards.'
-              )}
-            </p>
+            <h4>{t('homePageBenefits.rewardsTitle')}</h4>
+            <p>{t('homePageBenefits.rewardsText')}</p>
           </div>
 
           <div className="reason-card">
             <span className="reason-icon">🔔</span>
-            <h4>{t('homePageBenefits.liveTitle', 'Live Updates & Cleaner Matches')}</h4>
-            <p>
-              {t(
-                'homePageBenefits.liveText',
-                'Matches refresh on demand and retrieved items auto-disappear, keeping results relevant.'
-              )}
-            </p>
+            <h4>{t('homePageBenefits.liveTitle')}</h4>
+            <p>{t('homePageBenefits.liveText')}</p>
           </div>
         </div>
       </section>
